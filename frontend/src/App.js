@@ -1,16 +1,16 @@
-import logo from './logo.svg';
-import './App.css';
-
-function App() {
+function MainPage() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          WOW you are FRONTENDER, aren't you?
-        </p>
-      </header>
-    </div>
+    <button>
+      Main page, wow!
+    </button>
   );
 }
 
-export default App;
+export default function MyApp() {
+  return (
+    <div>
+      <h1> What is it?</h1>
+      <MainPage />
+    </div>
+  );
+}

@@ -1,7 +1,6 @@
 FROM python:3.11
 
-RUN python -m pip install --upgrade pip && \
-	python -m pip install poetry && \
+RUN python -m pip install poetry && \
     poetry config virtualenvs.create false
 
 COPY pyproject.toml poetry.lock ./

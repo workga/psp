@@ -20,7 +20,7 @@ backend:
 frontend:
 	cd frontend; PORT=8090 npm start
 
-docker-buid:
+docker-build:
 	docker-compose build
 
 docker-up:

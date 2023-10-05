@@ -13,7 +13,7 @@ Application is available on localhost:9000
 
 You need to run ```make docker-build``` after changing dependencies, but changes in the code appear in running containers automatically.
 
-The current docker configuration is intended only for development, but not for production.
+The current docker configuration is intended only for development, not for production.
 
 
 ### Local run

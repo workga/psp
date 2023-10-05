@@ -19,6 +19,8 @@ services:
     build:
       context: .
       dockerfile: backend/backend.dockerfile
+    env_file:
+      - backend/backend.env
     ports:
       - '9080:8080'
     volumes:
@@ -26,6 +28,7 @@ services:
     depends_on:
       - db
       - redis
+    restart: always
 
   frontend:
     build:
