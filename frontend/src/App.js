@@ -1,16 +1,14 @@
-function MainPage() {
-  return (
-    <button>
-      Main page, wow!
-    </button>
-  );
-}
+import React from 'react';
+import './App.css';
+import { Route, Routes } from 'react-router-dom';
+import { Search } from './components/Search/Search.js'
+import { Info } from './components/Info/Info.js'
 
-export default function MyApp() {
+export default function App() {
   return (
-    <div>
-      <h1> What is it?</h1>
-      <MainPage />
-    </div>
-  );
+    <Routes>
+      <Route path="/" element={<Search />} />
+      <Route path="/info" element={<Info />} />
+    </Routes>
+  )
 }

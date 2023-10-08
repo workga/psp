@@ -1,5 +1,7 @@
-VENV=.venv
-DB_URL=postgresql://postgres:postgres@localhost:9432/postgres
+VENV = .venv
+
+export DB_URL ?= postgresql://postgres:postgres@localhost:9432/postgres
+
 
 init-backend:
 	python -m venv $(VENV)
@@ -18,14 +20,15 @@ docker-db:
 	sleep 3
 
 migration-%: docker-db
-	DB_URL=$(DB_URL) $(VENV)/bin/alembic revision --autogenerate -m $(subst migration-,,$@)
+	$(VENV)/bin/alembic revision --autogenerate -m $(subst migration-,,$@)
 
 prepare-db: docker-db
-	DB_URL=$(DB_URL) $(VENV)/bin/alembic upgrade head
+	$(VENV)/bin/alembic upgrade head
+	$(VENV)/bin/python -m backend.app.cli init-data
 
 .PHONY: backend
 backend: prepare-db
-	DB_URL=$(DB_URL) $(VENV)/bin/uvicorn --host localhost --port 9080 --reload --factory backend.app.app:create_app
+	$(VENV)/bin/uvicorn --host localhost --port 9080 --reload --factory backend.app.app:create_app
 
 .PHONY: frontend
 frontend:

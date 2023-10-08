@@ -9,6 +9,6 @@ class Base(DeclarativeBase):
     created_at: Mapped[datetime] = mapped_column(server_default=func.now(), index=True, deferred=True)
 
 
-class User(Base):
-    __tablename__ = "user"
+class Profile(Base):
+    __tablename__ = "profile"
     username: Mapped[str] = mapped_column(String(50), unique=True)
