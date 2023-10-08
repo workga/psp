@@ -17,8 +17,8 @@ docker-db:
 	docker-compose up -d redis
 	sleep 3
 
-db-migration: docker-db
-	DB_URL=$(DB_URL) $(VENV)/bin/alembic revision --autogenerate
+migration-%: docker-db
+	DB_URL=$(DB_URL) $(VENV)/bin/alembic revision --autogenerate -m $(subst migration-,,$@)
 
 prepare-db: docker-db
 	DB_URL=$(DB_URL) $(VENV)/bin/alembic upgrade head
