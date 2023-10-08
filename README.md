@@ -3,30 +3,22 @@
 - npm 20.7.0
 - docker 20
 
-### Run in docker
-Run application in docker:
+Backend API is available on localhost:9080
+The project is configured only for development!
+
+
+### Initialization
 ```bash
-make docker-build
-make docker-up
+make init
 ```
-Application is available on localhost:9000
-
-You need to run ```make docker-build``` after changing dependencies, but changes in the code appear in running containers automatically.
-
-The current docker configuration is intended only for development, not for production.
-
 
 ### Local run
-Backend on localhost:8080
+Run backend (available on localhost:9080):
 ```bash
-make init-backend
-. .venv/bin/activate
 make backend
 ```
 
-Frontend on localhost:8090
+Run frontend (available on localhost:9000):
 ```bash
-make init-frontend
-. .venv/bin/activate
 make frontend
 ```

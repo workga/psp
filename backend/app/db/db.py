@@ -13,7 +13,8 @@ class DBSettings(BaseSettings):
     )
 
 
-engine = create_engine(DBSettings().url)
+db_settings = DBSettings()
+engine = create_engine(db_settings.url)
 session_maker = sessionmaker(engine)
 
 
