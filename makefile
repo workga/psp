@@ -1,6 +1,9 @@
+include backend/backend.env
+export
+
+
 VENV = .venv
 
-export DB_URL ?= postgresql://postgres:postgres@localhost:9432/postgres
 
 
 init-backend:
@@ -26,8 +29,10 @@ prepare-db: docker-db
 	$(VENV)/bin/alembic upgrade head
 	$(VENV)/bin/python -m backend.app.cli init-data
 
+prepare: prepare-db
+
 .PHONY: backend
-backend: prepare-db
+backend:
 	$(VENV)/bin/uvicorn --host localhost --port 9080 --reload --factory backend.app.app:create_app
 
 .PHONY: frontend
