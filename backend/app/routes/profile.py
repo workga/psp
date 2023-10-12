@@ -1,7 +1,14 @@
-from fastapi import Response, status, Depends
+from fastapi import status, Depends, HTTPException
 
 from backend.app.auth.deps import authenticated
+from backend.app.crud.profile import get_profile_info
+from backend.app.routes.schemas import ProfileInfo
 
 
-def profile(profile_id: int = Depends(authenticated)):
-    return Response(f"Hello it's profile_id={profile_id}", status_code=status.HTTP_200_OK)
+def profile(profile_id: int = Depends(authenticated)) -> ProfileInfo:
+    profile_info = get_profile_info(profile_id)
+    if profile_info is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND
+        )
+    return profile_info

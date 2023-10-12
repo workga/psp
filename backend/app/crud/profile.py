@@ -4,7 +4,7 @@ from sqlalchemy.exc import IntegrityError
 from backend.app.auth.security import hash_password, check_password
 from backend.app.db import db
 from backend.app.db.models import Profile
-from backend.app.routes.schemas import CreateProfile, LoginProfile
+from backend.app.routes.schemas import CreateProfile, LoginProfile, ProfileInfo
 
 
 def create_profile(data: CreateProfile) -> bool:
@@ -33,5 +33,23 @@ def login_profile(data: LoginProfile) -> int | None:
             return profile.id
 
         return None
+
+
+def get_profile_info(profile_id: int) -> ProfileInfo | None:
+    with db.create_session() as session:
+        profile = session.execute(
+            select(Profile.email, Profile.name)
+            .where(Profile.id == profile_id)
+        ).one_or_none()
+
+        if profile:
+            return ProfileInfo(
+                id=profile_id,
+                email=profile.email,
+                name=profile.name,
+            )
+
+        return None
+
 
 
