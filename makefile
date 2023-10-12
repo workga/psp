@@ -22,12 +22,16 @@ docker-db:
 	docker-compose up -d redis
 	sleep 3
 
-migration-%: docker-db
+upgrade-db:
+	$(VENV)/bin/alembic upgrade head
+
+init-data:
+	$(VENV)/bin/python -m backend.app.cli init-data
+
+migration-%: docker-db upgrade-db
 	$(VENV)/bin/alembic revision --autogenerate -m $(subst migration-,,$@)
 
-prepare-db: docker-db
-	$(VENV)/bin/alembic upgrade head
-	$(VENV)/bin/python -m backend.app.cli init-data
+prepare-db: docker-db upgrade-db init-data
 
 prepare: prepare-db
 

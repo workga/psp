@@ -2,6 +2,7 @@ from datetime import datetime
 
 from sqlalchemy import BigInteger, String, func
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
+from sqlalchemy.sql import expression
 
 
 class Base(DeclarativeBase):
@@ -11,4 +12,8 @@ class Base(DeclarativeBase):
 
 class Profile(Base):
     __tablename__ = "profile"
-    username: Mapped[str] = mapped_column(String(50), unique=True)
+    name: Mapped[str] = mapped_column(String(30), nullable=False)
+    email: Mapped[str] = mapped_column(String(30), nullable=False, unique=True)
+    password_hash: Mapped[str] = mapped_column(String(72), nullable=False)
+    is_confirmed: Mapped[bool] = mapped_column(nullable=False, server_default=expression.false())
+    is_admin: Mapped[bool] = mapped_column(nullable=False, server_default=expression.false())

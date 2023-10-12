@@ -1,8 +1,11 @@
+import logging
 from contextlib import contextmanager
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, Session
+
+logger = logging.getLogger(__name__)
 
 
 class DBSettings(BaseSettings):
@@ -24,8 +27,9 @@ def create_session(expire_on_commit: bool = True, autoflush: bool = False, autob
     try:
         yield session
         session.commit()
-    except Exception:
+    except Exception as e:
         session.rollback()
+        logger.error(e)
         raise
     finally:
         session.close()
