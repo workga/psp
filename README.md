@@ -10,6 +10,7 @@ The project is configured only for development!
 ### Initialization
 ```bash
 make init
+make prepare
 ```
 
 ### Local run
