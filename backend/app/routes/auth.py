@@ -34,11 +34,13 @@ def login(data: LoginProfile) -> Response:
         key=COOKIE_SESSION_ID,
         value=session_id,
         httponly=True,
-        max_age=auth_settings.session_cookie_ttl.seconds
+        max_age=int(auth_settings.session_cookie_ttl.total_seconds())
     )
     return response
 
 
 def logout(session_id: str = Cookie(), profile_id: int = Depends(authenticated)) -> Response:
     delete_auth_session(session_id)
-    return Response(status_code=status.HTTP_200_OK)
+    response = Response(status_code=status.HTTP_200_OK)
+    response.delete_cookie(key=COOKIE_SESSION_ID, httponly=True)
+    return response

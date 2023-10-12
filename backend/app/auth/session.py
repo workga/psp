@@ -9,8 +9,8 @@ REDIS_SESSION_ID_KEY_TEMPLATE = "session_id.{}"
 
 
 class AuthSettings(BaseSettings):
-    session_ttl: timedelta = timedelta(seconds=10)
-    session_cookie_ttl: timedelta = timedelta(seconds=10)
+    session_ttl: timedelta = timedelta(days=1)
+    session_cookie_ttl: timedelta = timedelta(days=1)
 
     model_config = SettingsConfigDict(
         env_prefix="AUTH_",
@@ -24,8 +24,8 @@ def create_auth_session(profile_id: int) -> str | None:
     session_id = generate_session_id()
 
     key = REDIS_SESSION_ID_KEY_TEMPLATE.format(session_id)
-    ttl = auth_settings.session_ttl.seconds
-
+    ttl = int(auth_settings.session_ttl.total_seconds())
+    print(ttl)
     conn = get_redis()
     if not conn.set(key, profile_id, ex=ttl):
         return None
