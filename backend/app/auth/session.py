@@ -25,7 +25,6 @@ def create_auth_session(profile_id: int) -> str | None:
 
     key = REDIS_SESSION_ID_KEY_TEMPLATE.format(session_id)
     ttl = int(auth_settings.session_ttl.total_seconds())
-    print(ttl)
     conn = get_redis()
     if not conn.set(key, profile_id, ex=ttl):
         return None
