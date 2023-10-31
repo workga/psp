@@ -5,7 +5,7 @@ from backend.app.crud.profile import get_profile_info
 from backend.app.routes.schemas import ProfileInfo
 
 
-def profile(profile_id: int = Depends(authenticated)) -> ProfileInfo:
+def get_profile(profile_id: int = Depends(authenticated)) -> ProfileInfo:
     profile_info = get_profile_info(profile_id)
     if profile_info is None:
         raise HTTPException(

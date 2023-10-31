@@ -10,6 +10,7 @@ logger = logging.getLogger(__name__)
 
 class DBSettings(BaseSettings):
     url: str
+    echo: bool = False
 
     model_config = SettingsConfigDict(
         env_prefix="DB_",
@@ -17,7 +18,7 @@ class DBSettings(BaseSettings):
 
 
 db_settings = DBSettings()
-engine = create_engine(db_settings.url)
+engine = create_engine(db_settings.url, echo=db_settings.echo)
 session_maker = sessionmaker(engine)
 
 

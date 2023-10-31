@@ -1,5 +1,5 @@
 from fastapi import FastAPI, APIRouter
-from backend.app.routes import auth, profile
+from backend.app.routes import auth, profile, car
 
 
 def get_api_router() -> APIRouter:
@@ -9,9 +9,9 @@ def get_api_router() -> APIRouter:
     router.add_api_route('/auth/login', auth.login, methods=["POST"])
     router.add_api_route('/auth/logout', auth.logout, methods=["POST"])
 
-    router.add_api_route('/profile', profile.profile, methods=["GET"])
+    router.add_api_route('/profile', profile.get_profile, methods=["GET"])
 
-    router.add_api_route('/cars/brands', )
+    router.add_api_route('/cars/brands', car.get_car_brands, methods=["GET"])
 
     return router
 

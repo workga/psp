@@ -15,3 +15,9 @@ class ProfileInfo(BaseModel):
     email: EmailStr
     name: str
 
+
+class CarBrandInfo(BaseModel):
+    id: int
+    brand_name: str
+    score: int
+

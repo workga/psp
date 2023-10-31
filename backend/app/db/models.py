@@ -2,7 +2,7 @@ from datetime import datetime
 import re
 from enum import StrEnum
 
-from sqlalchemy import BigInteger, String, func, ForeignKey, UniqueConstraint, Enum, Text
+from sqlalchemy import BigInteger, String, func, ForeignKey, UniqueConstraint, Enum, Text, text
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, declared_attr, relationship
 from sqlalchemy.sql import expression
 
@@ -36,7 +36,9 @@ class Profile(Base):
 
 
 class CarBrand(Base):
-    brand_name: Mapped[str] = mapped_column(String(30), nullable=False, unique=True, index=True)
+    # TODO: add index for text search
+    brand_name: Mapped[str] = mapped_column(String(30), nullable=False, unique=True)
+    score: Mapped[int] = mapped_column(nullable=False, server_default=text("0"), index=True)
 
     car_models: Mapped[list['CarModel']] = relationship('CarModel', back_populates='car_brand', uselist=True)
 
