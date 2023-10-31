@@ -16,8 +16,11 @@ class ProfileInfo(BaseModel):
     name: str
 
 
-class CarBrandInfo(BaseModel):
-    id: int
+class CreateCarBrand(BaseModel):
     brand_name: str
+
+
+class CarBrandInfo(CreateCarBrand):
+    id: int
     score: int
 

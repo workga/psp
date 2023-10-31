@@ -52,4 +52,14 @@ def get_profile_info(profile_id: int) -> ProfileInfo | None:
         return None
 
 
+def is_profile_admin(profile_id: int) -> bool:
+    with db.create_session() as session:
+        is_admin = session.execute(
+            select(Profile.is_admin)
+            .where(Profile.id == profile_id)
+        ).scalar_one_or_none()
+
+        return is_admin
+
+
 

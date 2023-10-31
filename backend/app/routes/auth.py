@@ -1,6 +1,6 @@
 from fastapi import status, HTTPException, Response, Depends, Cookie
 
-from backend.app.auth.deps import COOKIE_SESSION_ID, authenticated
+from backend.app.auth.deps import COOKIE_SESSION_ID, authenticated_or_not_valid
 from backend.app.auth.session import create_auth_session, auth_settings, delete_auth_session
 from backend.app.crud.profile import create_profile, login_profile
 from backend.app.routes.schemas import CreateProfile, LoginProfile
@@ -51,7 +51,11 @@ def login(data: LoginProfile, session_id: str | None = Cookie(None)) -> Response
     return response
 
 
-def logout(session_id: str = Cookie(), profile_id: int = Depends(authenticated)) -> Response:
+def logout(session_id: str = Cookie(), profile_id: int | None = Depends(authenticated_or_not_valid)) -> Response:
+    """Logout profile.
+    session_id is required.
+    if the session_id is invalid, delete the cookie anyway in case of session loss on the server.
+    """
     delete_auth_session(session_id)
     response = Response(status_code=status.HTTP_200_OK)
     response.delete_cookie(key=COOKIE_SESSION_ID, httponly=True)

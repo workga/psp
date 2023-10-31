@@ -16,6 +16,16 @@ def cli() -> None:
 @cli.command()
 def init_data() -> None:
     with db.create_session() as session:
+        password_hash = bcrypt.hashpw(f"admin_profile".encode(), bcrypt.gensalt()).decode()
+        session.add(
+            Profile(
+                name=f"admin",
+                email=f"admin@example.com",
+                password_hash=password_hash,
+                is_confirmed=True,
+                is_admin=True,
+            )
+        )
         for i in range(10):
             password_hash = bcrypt.hashpw(f"testing_profile".encode(), bcrypt.gensalt()).decode()
 
