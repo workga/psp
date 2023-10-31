@@ -6,8 +6,14 @@ from backend.app.crud.profile import create_profile, login_profile
 from backend.app.routes.schemas import CreateProfile, LoginProfile
 
 
-# TODO: supress password in response if data validation fails
-def register(data: CreateProfile) -> Response:
+# TODO: suppress password in response if data validation fails, i.e. send filtered fastapi response
+def register(data: CreateProfile, session_id: str | None = Cookie(None)) -> Response:
+    if session_id:
+        raise HTTPException(
+            detail="Already logged in",
+            status_code=status.HTTP_403_FORBIDDEN,
+        )
+
     if not create_profile(data):
         raise HTTPException(
             detail="This email can't be registered",
@@ -18,7 +24,13 @@ def register(data: CreateProfile) -> Response:
     return Response(status_code=status.HTTP_201_CREATED)
 
 
-def login(data: LoginProfile) -> Response:
+def login(data: LoginProfile, session_id: str | None = Cookie(None)) -> Response:
+    if session_id:
+        raise HTTPException(
+            detail="Already logged in",
+            status_code=status.HTTP_403_FORBIDDEN,
+        )
+
     profile_id = login_profile(data)
     if profile_id is None:
         raise HTTPException(
@@ -29,7 +41,7 @@ def login(data: LoginProfile) -> Response:
     session_id = create_auth_session(profile_id)
 
     response = Response(status_code=status.HTTP_200_OK)
-    # TODO: set additional options in cookie for security reason
+    # TODO: set additional options in cookie for security reason (secure etc.)
     response.set_cookie(
         key=COOKIE_SESSION_ID,
         value=session_id,

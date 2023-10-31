@@ -11,6 +11,8 @@ def get_api_router() -> APIRouter:
 
     router.add_api_route('/profile', profile.profile, methods=["GET"])
 
+    router.add_api_route('/cars/brands', )
+
     return router
 
 
