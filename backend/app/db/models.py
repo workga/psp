@@ -46,6 +46,7 @@ class CarBrand(Base):
 class CarModel(Base):
     car_brand_id: Mapped[int] = mapped_column(ForeignKey(CarBrand.id), nullable=False)
     model_name: Mapped[str] = mapped_column(String(30), nullable=False, index=True)
+    score: Mapped[int] = mapped_column(nullable=False, server_default=text("0"), index=True)
 
     __table_args__ = (UniqueConstraint(car_brand_id, model_name),)
 
@@ -56,6 +57,7 @@ class CarModel(Base):
 class CarGen(Base):
     car_model_id: Mapped[int] = mapped_column(ForeignKey(CarModel.id), nullable=False)
     gen_name: Mapped[str] = mapped_column(String(60), nullable=False, unique=True, index=True)
+    score: Mapped[int] = mapped_column(nullable=False, server_default=text("0"), index=True)
 
     __table_args__ = (UniqueConstraint(car_model_id, gen_name),)
 
@@ -76,6 +78,7 @@ class Car(Base):
 
 class DetailCategory(Base):
     category_name: Mapped[str] = mapped_column(String(60), nullable=False, unique=True, index=True)
+    score: Mapped[int] = mapped_column(nullable=False, server_default=text("0"), index=True)
 
     detail_types: Mapped[list['DetailType']] = relationship('DetailType', back_populates='detail_category', uselist=True)
 
@@ -83,6 +86,7 @@ class DetailCategory(Base):
 class DetailType(Base):
     detail_category_id: Mapped[int] = mapped_column(ForeignKey(DetailCategory.id), nullable=False)
     type_name: Mapped[str] = mapped_column(String(60), nullable=False, index=True)
+    score: Mapped[int] = mapped_column(nullable=False, server_default=text("0"), index=True)
 
     __table_args__ = (UniqueConstraint(detail_category_id, type_name),)
 

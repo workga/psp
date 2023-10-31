@@ -5,7 +5,13 @@ import bcrypt
 import click
 
 from backend.app.db import db
-from backend.app.db.models import Profile, CarBrand
+from backend.app.db.models import Profile, CarBrand, CarModel
+
+
+def get_random_pairs(n: int = 5) -> list[str]:
+    pairs = [a + b for a in string.ascii_uppercase[:n] for b in string.ascii_uppercase[:n]]
+    random.shuffle(pairs)
+    return pairs
 
 
 @click.group()
@@ -15,6 +21,8 @@ def cli() -> None:
 
 @cli.command()
 def init_data() -> None:
+    random.seed(0)
+
     with db.create_session() as session:
         password_hash = bcrypt.hashpw(f"admin_profile".encode(), bcrypt.gensalt()).decode()
         session.add(
@@ -38,14 +46,21 @@ def init_data() -> None:
                 )
             )
 
-        random.seed(0)
-        brands = [a + b for a in string.ascii_uppercase for b in string.ascii_uppercase]
-        random.shuffle(brands)
-        for brand in brands:
-            session.add(
-                CarBrand(
-                    brand_name=f"{brand} Brand",
-                    score=random.randint(0, 10),
-                )
+        for brand in get_random_pairs():
+            car_brand = CarBrand(
+                brand_name=f"{brand} Brand",
+                score=random.randint(0, 10),
             )
+            session.add(car_brand)
+            session.flush()
+
+            for model in get_random_pairs():
+                session.add(
+                    CarModel(
+                        car_brand_id=car_brand.id,
+                        model_name=f"{model} Model",
+                        score=random.randint(0, 10),
+                    )
+                )
+
         session.commit()

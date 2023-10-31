@@ -24,3 +24,13 @@ class CarBrandInfo(CreateCarBrand):
     id: int
     score: int
 
+
+class CreateCarModel(BaseModel):
+    brand_id: int
+    model_name: str
+
+
+class CarModelInfo(CreateCarModel):
+    id: int
+    score: int
+
