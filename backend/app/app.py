@@ -14,6 +14,7 @@ def get_api_router() -> APIRouter:
     router.add_api_route('/cars/brands', car.get_car_brands, methods=["GET"])
     router.add_api_route('/cars/brands', car.create_car_brand, methods=["POST"])
     router.add_api_route('/cars/brands/{brand_id}/models', car.get_car_models, methods=["GET"])
+    router.add_api_route('/cars/brands/{brand_id}/models', car.create_car_model, methods=["POST"])
 
     return router
 

@@ -3,7 +3,7 @@ from sqlalchemy.exc import IntegrityError
 
 from backend.app.db import db
 from backend.app.db.models import CarBrand, CarModel
-from backend.app.routes.schemas import CarBrandInfo, CreateCarBrand, CarModelInfo
+from backend.app.routes.schemas import CarBrandInfo, CreateCarBrand, CarModelInfo, CreateCarModel
 
 
 def search_car_brands(search: str, count: int) -> list[CarBrandInfo]:
@@ -47,3 +47,13 @@ def search_car_models(brand_id: int, search: str, count: int) -> list[CarModelIn
             )
             for model in models
         ]
+
+
+def create_car_model(brand_id: int, data: CreateCarModel) -> bool:
+    try:
+        with db.create_session() as session:
+            session.add(CarModel(car_brand_id=brand_id, model_name=data.model_name))
+            session.commit()
+            return True
+    except IntegrityError:
+        return False

@@ -26,11 +26,11 @@ class CarBrandInfo(CreateCarBrand):
 
 
 class CreateCarModel(BaseModel):
-    brand_id: int
     model_name: str
 
 
 class CarModelInfo(CreateCarModel):
+    brand_id: int
     id: int
     score: int
 
