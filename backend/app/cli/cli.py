@@ -5,10 +5,10 @@ import bcrypt
 import click
 
 from backend.app.db import db
-from backend.app.db.models import Profile, CarBrand, CarModel
+from backend.app.db.models import Profile, CarBrand, CarModel, CarGen
 
 
-def get_random_pairs(n: int = 5) -> list[str]:
+def get_random_pairs(n: int = 4) -> list[str]:
     pairs = [a + b for a in string.ascii_uppercase[:n] for b in string.ascii_uppercase[:n]]
     random.shuffle(pairs)
     return pairs
@@ -55,12 +55,21 @@ def init_data() -> None:
             session.flush()
 
             for model in get_random_pairs():
-                session.add(
-                    CarModel(
-                        car_brand_id=car_brand.id,
-                        model_name=f"{model} Model",
-                        score=random.randint(0, 10),
-                    )
+                car_model = CarModel(
+                    car_brand_id=car_brand.id,
+                    model_name=f"{model} Model",
+                    score=random.randint(0, 10),
                 )
+                session.add(car_model)
+                session.flush()
+
+                for gen in get_random_pairs():
+                    session.add(
+                        CarGen(
+                            car_model_id=car_model.id,
+                            gen_name=f"{gen} Gen",
+                            score=random.randint(0, 10),
+                        )
+                    )
 
         session.commit()

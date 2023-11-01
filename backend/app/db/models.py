@@ -56,7 +56,7 @@ class CarModel(Base):
 
 class CarGen(Base):
     car_model_id: Mapped[int] = mapped_column(ForeignKey(CarModel.id), nullable=False)
-    gen_name: Mapped[str] = mapped_column(String(60), nullable=False, unique=True, index=True)
+    gen_name: Mapped[str] = mapped_column(String(60), nullable=False, index=True)
     score: Mapped[int] = mapped_column(nullable=False, server_default=text("0"), index=True)
 
     __table_args__ = (UniqueConstraint(car_model_id, gen_name),)
