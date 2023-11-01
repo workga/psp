@@ -26,7 +26,7 @@ upgrade-db:
 	$(VENV)/bin/alembic upgrade head
 
 init-data:
-	$(VENV)/bin/python -m backend.app.cli init-data
+	DB_ECHO=false $(VENV)/bin/python -m backend.app.cli init-data
 
 migration-%: docker-db upgrade-db
 	$(VENV)/bin/alembic revision --autogenerate -m $(subst migration-,,$@)
