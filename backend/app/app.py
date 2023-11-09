@@ -1,5 +1,5 @@
 from fastapi import FastAPI, APIRouter
-from backend.app.routes import auth, profile, car
+from backend.app.routes import auth, profile, car, detail
 
 
 def get_api_router() -> APIRouter:
@@ -19,6 +19,11 @@ def get_api_router() -> APIRouter:
     router.add_api_route('/cars/brands/{brand_id}/models', car.create_car_model, methods=["POST"])
     router.add_api_route('/cars/brands/{brand_id}/models/{model_id}/gens', car.get_car_gens, methods=["GET"])
     router.add_api_route('/cars/brands/{brand_id}/models/{model_id}/gens', car.create_car_gen, methods=["POST"])
+
+    router.add_api_route('/details/categories', detail.get_detail_categories, methods=["GET"])
+    router.add_api_route('/details/categories', detail.create_detail_category, methods=["POST"])
+    router.add_api_route('/details/categories/{category_id}/types', detail.get_detail_types, methods=["GET"])
+    router.add_api_route('/details/categories/{category_id}/types', detail.create_detail_type, methods=["POST"])
 
     return router
 

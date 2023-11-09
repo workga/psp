@@ -5,7 +5,7 @@ import bcrypt
 import click
 
 from backend.app.db import db
-from backend.app.db.models import Profile, CarBrand, CarModel, CarGen
+from backend.app.db.models import Profile, CarBrand, CarModel, CarGen, DetailCategory, DetailType
 
 
 def get_random_pairs(n: int = 4) -> list[str]:
@@ -71,5 +71,21 @@ def init_data() -> None:
                             score=random.randint(0, 10),
                         )
                     )
+
+        for category in get_random_pairs():
+            detail_category = DetailCategory(
+                category_name=f"{category} Category",
+                score=random.randint(0, 10),
+            )
+            session.add(detail_category)
+            session.flush()
+
+            for type_ in get_random_pairs():
+                detail_type = DetailType(
+                    detail_category_id=detail_category.id,
+                    type_name=f"{type_} Type",
+                    score=random.randint(0, 10),
+                )
+                session.add(detail_type)
 
         session.commit()

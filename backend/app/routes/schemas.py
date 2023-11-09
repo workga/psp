@@ -45,3 +45,22 @@ class CarGenInfo(CreateCarGen):
     id: int
     score: int
 
+
+class CreateDetailCategory(BaseModel):
+    category_name: str
+
+
+class DetailCategoryInfo(CreateDetailCategory):
+    id: int
+    score: int
+
+
+class CreateDetailType(BaseModel):
+    type_name: str
+
+
+class DetailTypeInfo(CreateDetailType):
+    category_id: int
+    id: int
+    score: int
+

@@ -49,7 +49,7 @@ def get_car_gens(
     gens = car.search_car_gens(brand_id, model_id, search, count)
     if gens is None:
         raise HTTPException(
-            detail="This model does not belong to this brand",
+            detail="This brand doesn't exist or this model does not belong to this brand",
             status_code=status.HTTP_404_NOT_FOUND,
         )
 

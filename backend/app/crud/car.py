@@ -29,8 +29,14 @@ def create_car_brand(data: CreateCarBrand) -> bool:
         return False
 
 
-def search_car_models(brand_id: int, search: str, count: int) -> list[CarModelInfo]:
+def search_car_models(brand_id: int, search: str, count: int) -> list[CarModelInfo] | None:
     with db.create_session() as session:
+        brand = session.execute(
+            select(CarBrand).where(CarBrand.id == brand_id)
+        ).one_or_none()
+        if brand is None:
+            return None
+
         models = session.execute(
             select(CarModel.id, CarModel.model_name, CarModel.score)
             .where(CarModel.car_brand_id == brand_id)
@@ -60,7 +66,7 @@ def create_car_model(brand_id: int, data: CreateCarModel) -> bool:
         return False
 
 
-def search_car_gens(brand_id: int, model_id: int, search: str, count: int) -> list[CarGenInfo]:
+def search_car_gens(brand_id: int, model_id: int, search: str, count: int) -> list[CarGenInfo] | None:
     with db.create_session() as session:
         model = session.execute(
             select(CarModel)
@@ -68,7 +74,7 @@ def search_car_gens(brand_id: int, model_id: int, search: str, count: int) -> li
             .where(CarModel.car_brand_id == brand_id)
         ).one_or_none()
         if model is None:
-            return []
+            return None
 
         gens = session.execute(
             select(CarGen.id, CarGen.gen_name, CarGen.score)
