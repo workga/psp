@@ -1,3 +1,5 @@
+import datetime
+
 from pydantic import BaseModel, EmailStr, Field
 
 from backend.app.db.models import ProductCondition
@@ -104,4 +106,6 @@ class ProfileProductInfo(CreateProduct):
     id: int
     car_info: CarInfo
     detail_info: DetailInfo
+    # TODO: add time zones
+    published_at: datetime.datetime
 

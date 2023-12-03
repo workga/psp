@@ -37,6 +37,7 @@ def get_profile_products(profile_id: int) -> list[ProfileProductInfo]:
                 address=product.address,
                 condition=product.condition,
                 description=product.description,
+                published_at=product.published_at,
                 car_info=CarInfo(
                     brand_id=car_brand.id,
                     brand_name=car_brand.brand_name,
