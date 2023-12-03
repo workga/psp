@@ -25,8 +25,9 @@ class Profile(Base):
     # TODO: add email confirmation
     email: Mapped[str] = mapped_column(String(30), nullable=False, unique=True)
     password_hash: Mapped[str] = mapped_column(String(72), nullable=False)
-    # TODO: add phone and confirmation for it
-    # TODO: add city or address?
+    # TODO: add phone confirmation
+    phone: Mapped[str] = mapped_column(String(12), nullable=False, unique=True)
+    city: Mapped[str] = mapped_column(String(30), nullable=False, unique=False)
 
     is_confirmed: Mapped[bool] = mapped_column(nullable=False, server_default=expression.false())
     is_admin: Mapped[bool] = mapped_column(nullable=False, server_default=expression.false())

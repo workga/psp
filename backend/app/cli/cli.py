@@ -32,6 +32,8 @@ def init_data() -> None:
                 password_hash=password_hash,
                 is_confirmed=True,
                 is_admin=True,
+                city=f"Las Vegas",
+                phone=f"+7_las_vegas",
             )
         )
         for i in range(10):
@@ -43,6 +45,8 @@ def init_data() -> None:
                     email=f"testing{i}@example.com",
                     password_hash=password_hash,
                     is_confirmed=True,
+                    city=f"City {i}",
+                    phone=f"+7{str(i)*10}",
                 )
             )
 

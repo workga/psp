@@ -8,12 +8,16 @@ class LoginProfile(BaseModel):
 
 class CreateProfile(LoginProfile):
     name: str = Field(min_length=1, max_length=30)
+    city: str = Field(min_length=1, max_length=30)
+    phone: str = Field(min_length=10, max_length=12)
 
 
 class ProfileInfo(BaseModel):
     id: int
     email: EmailStr
     name: str
+    city: str
+    phone: str
 
 
 class CreateCarBrand(BaseModel):

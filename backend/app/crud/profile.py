@@ -15,6 +15,8 @@ def create_profile(data: CreateProfile) -> bool:
                 name=data.name,
                 email=data.email,
                 password_hash=hash_password(data.password),
+                city=data.city,
+                phone=data.phone,
             )
             session.add(profile)
             session.commit()
@@ -39,7 +41,7 @@ def login_profile(data: LoginProfile) -> int | None:
 def get_profile_info(profile_id: int) -> ProfileInfo | None:
     with db.create_session() as session:
         profile = session.execute(
-            select(Profile.email, Profile.name)
+            select(Profile.email, Profile.name, Profile.city, Profile.phone)
             .where(Profile.id == profile_id)
         ).one_or_none()
 
@@ -48,6 +50,8 @@ def get_profile_info(profile_id: int) -> ProfileInfo | None:
                 id=profile_id,
                 email=profile.email,
                 name=profile.name,
+                city=profile.city,
+                phone=profile.phone,
             )
 
         return None
