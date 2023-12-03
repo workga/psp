@@ -1,5 +1,7 @@
 from pydantic import BaseModel, EmailStr, Field
 
+from backend.app.db.models import ProductCondition
+
 
 class LoginProfile(BaseModel):
     email: EmailStr
@@ -82,7 +84,24 @@ class CarInfo(BaseModel):
     gen_name: str
 
 
-class GarageInfo(BaseModel):
-    profile_id: int
-    cars: list[CarInfo]
+class DetailInfo(BaseModel):
+    category_id: int
+    category_name: str
+    type_id: int
+    type_name: str
+
+
+class CreateProduct(BaseModel):
+    price: int = Field(gt=1)
+    address: str = Field(min_length=1, max_length=100)
+    condition: ProductCondition
+    description: str | None
+    car_gen_id: int
+    detail_type_id: int
+
+
+class ProfileProductInfo(CreateProduct):
+    id: int
+    car_info: CarInfo
+    detail_info: DetailInfo
 

@@ -1,5 +1,5 @@
 from fastapi import FastAPI, APIRouter
-from backend.app.routes import auth, profile, car, detail
+from backend.app.routes import auth, profile, car, detail, product
 
 
 def get_api_router() -> APIRouter:
@@ -10,10 +10,14 @@ def get_api_router() -> APIRouter:
     router.add_api_route('/auth/logout', auth.logout, methods=["POST"])
 
     router.add_api_route('/profile', profile.get_profile, methods=["GET"])
-    # router.add_api_route('/profile', profile.update_profile, methods=["PUT"])
+    # router.add_api_route('/profile', profile.edit_profile, methods=["PUT"])
     router.add_api_route('/profile/garage', profile.get_cars_in_garage, methods=["GET"])
     router.add_api_route('/profile/garage/cars', profile.add_car_to_garage, methods=["POST"])
     router.add_api_route('/profile/garage/cars/{car_gen_id}', profile.remove_car_from_garage, methods=["DELETE"])
+    router.add_api_route('/profile/products', product.get_profile_products, methods=["GET"])
+    router.add_api_route('/profile/products', product.create_profile_product, methods=["POST"])
+    router.add_api_route('/profile/products/{product_id}', product.remove_profile_product, methods=["DELETE"])
+    # router.add_api_route('/profile/products/{product_id}', product.edit_profile_product, methods=["PUT"])
 
     # TODO: allow only create entire cars as (brand, model, gen) to avoid empty lists in search panel
     # TODO: OR check models and gens existence during search (use Car table)
@@ -28,6 +32,10 @@ def get_api_router() -> APIRouter:
     router.add_api_route('/details/categories', detail.create_detail_category, methods=["POST"])
     router.add_api_route('/details/categories/{category_id}/types', detail.get_detail_types, methods=["GET"])
     router.add_api_route('/details/categories/{category_id}/types', detail.create_detail_type, methods=["POST"])
+
+    # TODO: add endpoints for get_car_info, get_detail_info
+    # router.add_api_route('/car_info/{car_gen_id}', car.get_car_info, methods=["GET"])
+    # router.add_api_route('/detail_info/{car_gen_id}', car.get_car_info, methods=["GET"])
 
     return router
 

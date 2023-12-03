@@ -102,6 +102,8 @@ class Product(Base):
     detail_type_id: Mapped[int] = mapped_column(ForeignKey(DetailType.id), nullable=False)
 
     profile: Mapped[Profile] = relationship(Profile, back_populates='products', uselist=False)
+    car_gen: Mapped[CarGen] = relationship(CarGen, uselist=False)
+    detail_type: Mapped[DetailType] = relationship(DetailType, uselist=False)
 
 
 class CarInGarage(Base):

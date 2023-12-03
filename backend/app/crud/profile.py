@@ -67,7 +67,7 @@ def is_profile_admin(profile_id: int) -> bool:
         return is_admin
 
 
-def get_cars(profile_id: int) -> list[CarInfo]:
+def get_cars_in_garage(profile_id: int) -> list[CarInfo]:
     with db.create_session() as session:
         result = session.execute(
             select(CarInGarage)
@@ -98,7 +98,7 @@ def get_cars(profile_id: int) -> list[CarInfo]:
         return car_infos
 
 
-def add_car(car_gen_id: int, profile_id: int) -> bool:
+def add_car_to_garage(car_gen_id: int, profile_id: int) -> bool:
     try:
         with db.create_session() as session:
             car_in_garage = CarInGarage(
@@ -113,7 +113,7 @@ def add_car(car_gen_id: int, profile_id: int) -> bool:
         return False
 
 
-def remove_car(car_gen_id: int, profile_id: int) -> bool:
+def remove_car_from_garage(car_gen_id: int, profile_id: int) -> bool:
     with db.create_session() as session:
         car_in_garage = session.execute(
             select(CarInGarage)
