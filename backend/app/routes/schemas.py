@@ -64,3 +64,21 @@ class DetailTypeInfo(CreateDetailType):
     id: int
     score: int
 
+
+class AddCarToGarage(BaseModel):
+    car_gen_id: int
+
+
+class CarInfo(BaseModel):
+    brand_id: int
+    brand_name: str
+    model_id: int
+    model_name: str
+    gen_id: int
+    gen_name: str
+
+
+class GarageInfo(BaseModel):
+    profile_id: int
+    cars: list[CarInfo]
+
