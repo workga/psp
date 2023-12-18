@@ -38,6 +38,7 @@ def get_api_router() -> APIRouter:
     # router.add_api_route('/detail_info/{car_gen_id}', car.get_car_info, methods=["GET"])
 
     router.add_api_route('/products', product.search_products, methods=["GET"])
+    router.add_api_route('/products/{product_id}/increase_score', product.increase_score, methods=["POST"])
 
     return router
 

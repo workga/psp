@@ -52,3 +52,12 @@ def search_products(
         sort_by,
         desc,
     )
+
+
+def increase_score(product_id: int = Path(ge=0)):
+    if not product.increase_score(product_id):
+        raise HTTPException(
+            detail="Can't increase score of this product",
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+        )
+    return Response(status_code=status.HTTP_201_CREATED)

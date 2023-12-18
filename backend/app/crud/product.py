@@ -1,10 +1,9 @@
-from sqlalchemy import select, and_, Column
+from sqlalchemy import select, and_, Column, update
 from sqlalchemy.exc import IntegrityError
-from sqlalchemy.orm import Session, joinedload, load_only
+from sqlalchemy.orm import joinedload
 
 from backend.app.db import db
-from backend.app.db.models import Product, CarGen, CarModel, CarBrand, DetailType, DetailCategory, ProductCondition, \
-    Profile
+from backend.app.db.models import Product, CarGen, CarModel, DetailType, ProductCondition, Profile
 from backend.app.routes.schemas import CreateProduct, CarInfo, DetailInfo, SortBy, ProductInfo
 
 
@@ -40,7 +39,7 @@ def get_base_product_info_dict(product: Product):
             type_name=detail_type.type_name,
         ),
         phone=product.profile.phone,
-        score=product.score
+        score=product.score,
     )
 
 
@@ -187,4 +186,16 @@ def search_products(
             search_product_infos.append(search_product_info)
 
         return search_product_infos
+
+
+def increase_score(product_id: int) -> bool:
+    with db.create_session() as session:
+        product = session.execute(
+            update(Product)
+            .where(Product.id == product_id)
+            .values(score=Product.score + 1)
+            .returning(Product.id)
+        ).scalar_one_or_none()
+
+        return bool(product)
 
