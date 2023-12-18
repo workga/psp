@@ -40,6 +40,7 @@ def get_base_product_info_dict(product: Product):
         ),
         phone=product.profile.phone,
         score=product.score,
+        complaints=product.complaints,
     )
 
 
@@ -194,6 +195,18 @@ def increase_score(product_id: int) -> bool:
             update(Product)
             .where(Product.id == product_id)
             .values(score=Product.score + 1)
+            .returning(Product.id)
+        ).scalar_one_or_none()
+
+        return bool(product)
+
+
+def add_complaint(product_id: int) -> bool:
+    with db.create_session() as session:
+        product = session.execute(
+            update(Product)
+            .where(Product.id == product_id)
+            .values(complaints=Product.complaints + 1)
             .returning(Product.id)
         ).scalar_one_or_none()
 

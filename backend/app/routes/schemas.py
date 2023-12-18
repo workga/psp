@@ -109,8 +109,9 @@ class ProductInfo(CreateProduct):
     detail_info: DetailInfo
     # TODO: add time zones
     published_at: datetime.datetime
-    score: int
     phone: str
+    score: int
+    complaints: int
 
 
 class SortBy(StrEnum):

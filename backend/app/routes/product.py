@@ -61,3 +61,12 @@ def increase_score(product_id: int = Path(ge=0)):
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
         )
     return Response(status_code=status.HTTP_201_CREATED)
+
+
+def add_complaint(product_id: int = Path(ge=0)):
+    if not product.add_complaint(product_id):
+        raise HTTPException(
+            detail="Can't add complaint to this product",
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+        )
+    return Response(status_code=status.HTTP_201_CREATED)

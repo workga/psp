@@ -39,6 +39,7 @@ def get_api_router() -> APIRouter:
 
     router.add_api_route('/products', product.search_products, methods=["GET"])
     router.add_api_route('/products/{product_id}/increase_score', product.increase_score, methods=["POST"])
+    router.add_api_route('/products/{product_id}/add_complaint', product.add_complaint, methods=["POST"])
 
     return router
 
