@@ -10,7 +10,7 @@ def get_api_router() -> APIRouter:
     router.add_api_route('/auth/logout', auth.logout, methods=["POST"])
 
     router.add_api_route('/profile', profile.get_profile, methods=["GET"])
-    # router.add_api_route('/profile', profile.edit_profile, methods=["PUT"])
+    router.add_api_route('/profile', profile.edit_profile, methods=["PATCH"])
     router.add_api_route('/profile/garage', profile.get_cars_in_garage, methods=["GET"])
     router.add_api_route('/profile/garage/cars', profile.add_car_to_garage, methods=["POST"])
     router.add_api_route('/profile/garage/cars/{car_gen_id}', profile.remove_car_from_garage, methods=["DELETE"])

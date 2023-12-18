@@ -2,14 +2,25 @@ from fastapi import status, Depends, HTTPException, Response, Path
 
 from backend.app.auth.deps import authenticated
 from backend.app.crud import profile
-from backend.app.routes.schemas import ProfileInfo, AddCarToGarage, CarInfo
+from backend.app.routes.schemas import ProfileInfo, AddCarToGarage, CarInfo, UpdateProfile
 
 
 def get_profile(profile_id: int = Depends(authenticated)) -> ProfileInfo:
     profile_info = profile.get_profile_info(profile_id)
     if profile_info is None:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND
+            detail="Profile not found",
+            status_code=status.HTTP_404_NOT_FOUND,
+        )
+    return profile_info
+
+
+def edit_profile(data: UpdateProfile, profile_id: int = Depends(authenticated)):
+    profile_info = profile.update_profile(data, profile_id)
+    if profile_info is None:
+        raise HTTPException(
+            detail="Profile not found",
+            status_code=status.HTTP_404_NOT_FOUND,
         )
     return profile_info
 

@@ -1,7 +1,8 @@
 import datetime
 from enum import StrEnum
+from typing import Any
 
-from pydantic import BaseModel, EmailStr, Field
+from pydantic import BaseModel, EmailStr, Field, model_validator
 
 from backend.app.db.models import ProductCondition
 
@@ -23,6 +24,18 @@ class ProfileInfo(BaseModel):
     name: str
     city: str
     phone: str
+
+
+class UpdateProfile(BaseModel):
+    name: str | None = Field(None, min_length=1, max_length=30)
+    city: str | None = Field(None, min_length=1, max_length=30)
+    phone: str | None = Field(None, min_length=10, max_length=12)
+
+    @model_validator(mode='before')
+    def not_empty(cls, values: dict[str, Any]) -> dict[str, Any]:
+        if not any(values.values()):
+            raise ValueError("No fields to update")
+        return values
 
 
 class CreateCarBrand(BaseModel):

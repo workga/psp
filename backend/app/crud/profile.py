@@ -1,11 +1,21 @@
-from sqlalchemy import select, delete, and_
+from sqlalchemy import select, delete, and_, update
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import joinedload
 
 from backend.app.auth.security import hash_password, check_password
 from backend.app.db import db
 from backend.app.db.models import Profile, CarInGarage, CarGen, CarModel, CarBrand
-from backend.app.routes.schemas import CreateProfile, LoginProfile, ProfileInfo, CarInfo
+from backend.app.routes.schemas import CreateProfile, LoginProfile, ProfileInfo, CarInfo, UpdateProfile
+
+
+def get_base_profile_info_dict(profile: Profile):
+    return dict(
+        id=profile.id,
+        email=profile.email,
+        name=profile.name,
+        city=profile.city,
+        phone=profile.phone,
+    )
 
 
 def create_profile(data: CreateProfile) -> bool:
@@ -41,18 +51,27 @@ def login_profile(data: LoginProfile) -> int | None:
 def get_profile_info(profile_id: int) -> ProfileInfo | None:
     with db.create_session() as session:
         profile = session.execute(
-            select(Profile.email, Profile.name, Profile.city, Profile.phone)
+            select(Profile)
             .where(Profile.id == profile_id)
-        ).one_or_none()
+        ).scalar_one_or_none()
 
         if profile:
-            return ProfileInfo(
-                id=profile_id,
-                email=profile.email,
-                name=profile.name,
-                city=profile.city,
-                phone=profile.phone,
-            )
+            return ProfileInfo.model_validate(get_base_profile_info_dict(profile))
+
+        return None
+
+
+def update_profile(data: UpdateProfile, profile_id: int) -> ProfileInfo | None:
+    with db.create_session() as session:
+        profile = session.execute(
+            update(Profile)
+            .where(Profile.id == profile_id)
+            .values(**data.model_dump(exclude_none=True))
+            .returning(Profile)
+        ).scalar_one_or_none()
+
+        if profile:
+            return ProfileInfo.model_validate(get_base_profile_info_dict(profile))
 
         return None
 
