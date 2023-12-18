@@ -17,16 +17,16 @@ def get_api_router() -> APIRouter:
     router.add_api_route('/profile/products', product.get_profile_products, methods=["GET"])
     router.add_api_route('/profile/products', product.create_profile_product, methods=["POST"])
     router.add_api_route('/profile/products/{product_id}', product.remove_profile_product, methods=["DELETE"])
-    # router.add_api_route('/profile/products/{product_id}', product.edit_profile_product, methods=["PUT"])
+    router.add_api_route('/profile/products/{product_id}', product.edit_profile_product, methods=["PATCH"])
 
     # TODO: allow only create entire cars as (brand, model, gen) to avoid empty lists in search panel
     # TODO: OR check models and gens existence during search (use Car table)
     router.add_api_route('/cars/brands', car.get_car_brands, methods=["GET"])
-    router.add_api_route('/cars/brands', car.create_car_brand, methods=["POST"])
+    router.add_api_route('/cars/brands', car.create_car_brand, methods=["POST"])  # use sqladmin
     router.add_api_route('/cars/brands/{brand_id}/models', car.get_car_models, methods=["GET"])
-    router.add_api_route('/cars/brands/{brand_id}/models', car.create_car_model, methods=["POST"])
+    router.add_api_route('/cars/brands/{brand_id}/models', car.create_car_model, methods=["POST"])  # use sqladmin
     router.add_api_route('/cars/brands/{brand_id}/models/{model_id}/gens', car.get_car_gens, methods=["GET"])
-    router.add_api_route('/cars/brands/{brand_id}/models/{model_id}/gens', car.create_car_gen, methods=["POST"])
+    router.add_api_route('/cars/brands/{brand_id}/models/{model_id}/gens', car.create_car_gen, methods=["POST"])  # use sqladmin
 
     router.add_api_route('/details/categories', detail.get_detail_categories, methods=["GET"])
     router.add_api_route('/details/categories', detail.create_detail_category, methods=["POST"])

@@ -108,12 +108,27 @@ class DetailInfo(BaseModel):
 
 
 class CreateProduct(BaseModel):
-    price: int = Field(gt=1)
+    price: int = Field(ge=1)
     address: str = Field(min_length=1, max_length=100)
     condition: ProductCondition
     description: str | None
     car_gen_id: int
     detail_type_id: int
+
+
+class UpdateProduct(BaseModel):
+    price: int | None = Field(None, ge=1)
+    address: str | None = Field(None, in_length=1, max_length=100)
+    condition: ProductCondition | None = None
+    description: str | None = None
+    car_gen_id: int | None
+    detail_type_id: int | None
+
+    @model_validator(mode='before')
+    def not_empty(cls, values: dict[str, Any]) -> dict[str, Any]:
+        if not any(values.values()):
+            raise ValueError("No fields to update")
+        return values
 
 
 class ProductInfo(CreateProduct):
@@ -125,6 +140,7 @@ class ProductInfo(CreateProduct):
     phone: str
     score: int
     complaints: int
+    profile_id: int
 
 
 class SortBy(StrEnum):

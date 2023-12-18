@@ -3,7 +3,7 @@ from fastapi import Depends, HTTPException, Response, status, Path, Query
 from backend.app.auth.deps import authenticated
 from backend.app.crud import product
 from backend.app.db.models import ProductCondition
-from backend.app.routes.schemas import CreateProduct, ProductInfo, SortBy
+from backend.app.routes.schemas import CreateProduct, ProductInfo, SortBy, UpdateProduct
 
 
 def get_profile_products(profile_id: int = Depends(authenticated)) -> list[ProductInfo]:
@@ -17,6 +17,16 @@ def create_profile_product(data: CreateProduct, profile_id: int = Depends(authen
             status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
         )
     return Response(status_code=status.HTTP_201_CREATED)
+
+
+def edit_profile_product(data: UpdateProduct, product_id: int = Path(ge=0), profile_id: int = Depends(authenticated)):
+    product_info = product.update_product(data, product_id, profile_id)
+    if product_info is None:
+        raise HTTPException(
+            detail="Can't update product",
+            status_code=status.HTTP_404_NOT_FOUND,
+        )
+    return product_info
 
 
 def remove_profile_product(product_id: int = Path(ge=0), profile_id: int = Depends(authenticated)):

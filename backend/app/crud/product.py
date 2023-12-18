@@ -1,10 +1,21 @@
-from sqlalchemy import select, and_, Column, update
+from sqlalchemy import select, and_, Column, update, Select
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import joinedload
 
 from backend.app.db import db
 from backend.app.db.models import Product, CarGen, CarModel, DetailType, ProductCondition, Profile
-from backend.app.routes.schemas import CreateProduct, CarInfo, DetailInfo, SortBy, ProductInfo
+from backend.app.routes.schemas import CreateProduct, CarInfo, DetailInfo, SortBy, ProductInfo, UpdateProduct
+
+
+def apply_product_info_options(query: Select) -> Select:
+    return query.options(
+        joinedload(Product.car_gen)
+        .joinedload(CarGen.car_model)
+        .joinedload(CarModel.car_brand),
+        joinedload(Product.detail_type)
+        .joinedload(DetailType.detail_category),
+        joinedload(Product.profile).load_only(Profile.phone),
+    )
 
 
 def get_base_product_info_dict(product: Product):
@@ -41,31 +52,14 @@ def get_base_product_info_dict(product: Product):
         phone=product.profile.phone,
         score=product.score,
         complaints=product.complaints,
+        profile_id=product.profile_id,
     )
 
 
 def get_profile_products(profile_id: int) -> list[ProductInfo]:
     with db.create_session() as session:
         query = select(Product).where(Product.profile_id == profile_id)
-        query = query.options(
-            joinedload(
-                Product.car_gen
-            ).joinedload(
-                CarGen.car_model
-            ).joinedload(
-                CarModel.car_brand
-            ),
-            joinedload(
-                Product.detail_type
-            ).joinedload(
-                DetailType.detail_category
-            ),
-            joinedload(
-                Product.profile
-            ).load_only(
-                Profile.phone
-            )
-        )
+        query = apply_product_info_options(query)
         query = query.order_by(Product.created_at)
         result = session.execute(query).scalars()
 
@@ -97,6 +91,27 @@ def create_profile_product(data: CreateProduct, profile_id: int) -> bool:
             return True
     except IntegrityError:
         return False
+
+
+def update_product(data: UpdateProduct, product_id: int, profile_id: int) -> ProductInfo | None:
+    try:
+        with db.create_session() as session:
+            query = (
+                update(Product)
+                .where(Product.profile_id == profile_id)
+                .where(Product.id == product_id)
+                .values(**data.model_dump(exclude_none=True))
+                .returning(Product)
+            )
+            query = apply_product_info_options(query)
+            product = session.execute(query).scalar_one_or_none()
+
+            if product:
+                return ProductInfo.model_validate(get_base_product_info_dict(product))
+
+            return None
+    except IntegrityError:
+        return None
 
 
 def remove_profile_product(product_id: int, profile_id: int) -> bool:
@@ -154,25 +169,7 @@ def search_products(
         else:
             query = query.order_by(column_with_optional_desc(Product.price, desc))
 
-        query = query.options(
-            joinedload(
-                Product.car_gen
-            ).joinedload(
-                CarGen.car_model
-            ).joinedload(
-                CarModel.car_brand
-            ),
-            joinedload(
-                Product.detail_type
-            ).joinedload(
-                DetailType.detail_category
-            ),
-            joinedload(
-                Product.profile
-            ).load_only(
-                Profile.phone
-            )
-        )
+        query = apply_product_info_options(query)
         query = query.offset((page - 1) * count)
         query = query.limit(count)
 
@@ -195,7 +192,7 @@ def increase_score(product_id: int) -> bool:
             update(Product)
             .where(Product.id == product_id)
             .values(score=Product.score + 1)
-            .returning(Product.id)
+            .returning(Product)
         ).scalar_one_or_none()
 
         return bool(product)
