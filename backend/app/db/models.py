@@ -87,9 +87,10 @@ class ProductCondition(StrEnum):
 
 
 class Product(Base):
-    price: Mapped[int] = mapped_column(nullable=False)
+    price: Mapped[int] = mapped_column(nullable=False, index=True)
     address: Mapped[str] = mapped_column(String(100), nullable=False)
     condition: Mapped[ProductCondition] = mapped_column(Enum(ProductCondition), nullable=False)
+    score: Mapped[int] = mapped_column(nullable=False, server_default=text("0"), index=True)
 
     description: Mapped[str] = mapped_column(Text, nullable=True)
     # TODO: add photo_path and workflow for it

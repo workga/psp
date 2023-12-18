@@ -1,4 +1,5 @@
 import datetime
+from enum import StrEnum
 
 from pydantic import BaseModel, EmailStr, Field
 
@@ -102,10 +103,16 @@ class CreateProduct(BaseModel):
     detail_type_id: int
 
 
-class ProfileProductInfo(CreateProduct):
+class ProductInfo(CreateProduct):
     id: int
     car_info: CarInfo
     detail_info: DetailInfo
     # TODO: add time zones
     published_at: datetime.datetime
+    phone: str
 
+
+class SortBy(StrEnum):
+    TIME = 'time'
+    PRICE = 'price'
+    SCORE = 'score'
