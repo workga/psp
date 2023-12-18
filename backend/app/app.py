@@ -1,4 +1,6 @@
 from fastapi import FastAPI, APIRouter
+
+from backend.app.admin.admin import create_admin
 from backend.app.routes import auth, profile, car, detail, product
 
 
@@ -46,7 +48,7 @@ def get_api_router() -> APIRouter:
 
 def create_app() -> FastAPI:
     app = FastAPI()
-
     app.include_router(get_api_router())
+    create_admin(app)
 
     return app

@@ -5,12 +5,14 @@ from enum import StrEnum
 from sqlalchemy import BigInteger, String, func, ForeignKey, UniqueConstraint, Enum, Text, text
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, declared_attr, relationship
 from sqlalchemy.sql import expression
+from sqlalchemy_utils import generic_repr
 
 
 def classname_to_tablename(class_name: str) -> str:
     return re.sub(r'(?<!^)(?=[A-Z])', '_', class_name).lower()
 
 
+@generic_repr
 class Base(DeclarativeBase):
     @declared_attr
     def __tablename__(cls) -> str:
