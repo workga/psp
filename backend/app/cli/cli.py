@@ -38,7 +38,7 @@ def init_data() -> None:
             for model in get_random_pairs():
                 car_model = CarModel(
                     car_brand_id=car_brand.id,
-                    model_name=f"{model} Model",
+                    model_name=f"{brand} Brand/ {model} Model",
                     score=random.randint(0, 10),
                 )
                 session.add(car_model)
@@ -47,7 +47,7 @@ def init_data() -> None:
                 for gen in get_random_pairs():
                     car_gen = CarGen(
                         car_model_id=car_model.id,
-                        gen_name=f"{gen} Gen",
+                        gen_name=f"{brand} Brand/ {model} Model/ {gen} Gen",
                         score=random.randint(0, 10),
                     )
                     session.add(car_gen)
