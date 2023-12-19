@@ -1,43 +1,59 @@
+from typing import Any
+
 from sqladmin import ModelView
 
 from backend.app.db.models import Profile, Product, CarBrand, CarModel, CarGen, DetailCategory, DetailType, CarInGarage
 
+from wtforms.validators import Optional
 
-class BaseAdminView:
+
+class BaseAdminView(ModelView):
     form_include_pk = True
     form_excluded_columns = ['id', 'created_at']
 
+    @property
+    def column_list(self):
+        return self.model.__table__.columns
 
-class ProfileAdminView(BaseAdminView, ModelView, model=Profile):
-    column_list = Profile.__table__.columns
-
-
-class ProductAdminView(BaseAdminView, ModelView, model=Product):
-    column_list = Product.__table__.columns
-
-
-class CarBrandAdminView(BaseAdminView, ModelView, model=CarBrand):
-    column_list = CarBrand.__table__.columns
-
-
-class CarModelAdminView(BaseAdminView, ModelView, model=CarModel):
-    column_list = CarModel.__table__.columns
+    @property
+    def form_args(self) -> dict[str, Any]:
+        return {
+            c.name: dict(validators=[Optional()])
+            for c in self.model.__table__.columns
+            if c.default or c.server_default
+        }
 
 
-class CarGenAdminView(BaseAdminView, ModelView, model=CarGen):
-    column_list = CarGen.__table__.columns
+class ProfileAdminView(BaseAdminView, model=Profile):
+    pass
 
 
-class DetailCategoryAdminView(BaseAdminView, ModelView, model=DetailCategory):
-    column_list = DetailCategory.__table__.columns
+class ProductAdminView(BaseAdminView, model=Product):
+    pass
 
 
-class DetailTypeAdminView(BaseAdminView, ModelView, model=DetailType):
-    column_list = DetailType.__table__.columns
+class CarBrandAdminView(BaseAdminView, model=CarBrand):
+    pass
 
 
-class CarInGarageAdminView(BaseAdminView, ModelView, model=CarInGarage):
-    column_list = CarInGarage.__table__.columns
+class CarModelAdminView(BaseAdminView, model=CarModel):
+    pass
+
+
+class CarGenAdminView(BaseAdminView, model=CarGen):
+    pass
+
+
+class DetailCategoryAdminView(BaseAdminView, model=DetailCategory):
+    pass
+
+
+class DetailTypeAdminView(BaseAdminView, model=DetailType):
+    pass
+
+
+class CarInGarageAdminView(BaseAdminView, model=CarInGarage):
+    pass
 
 
 def get_view_classes() -> list[type]:
