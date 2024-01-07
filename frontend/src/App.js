@@ -1,8 +1,7 @@
-import React from 'react';
 import './App.css';
 import { Route, Routes } from 'react-router-dom';
-import { Search } from './components/Search/Search.js'
-import { Info } from './components/Info/Info.js'
+import { Search } from './components/pages/Search/Search.js'
+import { Info } from './components/pages/Info/Info.js'
 
 export default function App() {
   return (

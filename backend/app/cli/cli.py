@@ -27,45 +27,45 @@ def init_data() -> None:
     with db.create_session() as session:
         car_gen_ids = []
         detail_type_ids = []
-        for brand in get_random_pairs(n=2):
+        for brand in get_random_pairs(n=4):
             car_brand = CarBrand(
-                brand_name=f"{brand} Brand",
+                brand_name=f"{brand}",
                 score=random.randint(0, 10),
             )
             session.add(car_brand)
             session.flush()
 
-            for model in get_random_pairs(n=2):
+            for model in get_random_pairs(n=4):
                 car_model = CarModel(
                     car_brand_id=car_brand.id,
-                    model_name=f"{brand} Brand/ {model} Model",
+                    model_name=f"{brand}.{model}",
                     score=random.randint(0, 10),
                 )
                 session.add(car_model)
                 session.flush()
 
-                for gen in get_random_pairs(n=2):
+                for gen in get_random_pairs(n=4):
                     car_gen = CarGen(
                         car_model_id=car_model.id,
-                        gen_name=f"{brand} Brand/ {model} Model/ {gen} Gen",
+                        gen_name=f"{brand}.{model}.{gen}",
                         score=random.randint(0, 10),
                     )
                     session.add(car_gen)
                     session.flush()
                     car_gen_ids.append(car_gen.id)
 
-        for category in get_random_pairs():
+        for category in get_random_pairs(n=4):
             detail_category = DetailCategory(
-                category_name=f"{category} Category",
+                category_name=f"{category}",
                 score=random.randint(0, 10),
             )
             session.add(detail_category)
             session.flush()
 
-            for type_ in get_random_pairs():
+            for type_ in get_random_pairs(n=4):
                 detail_type = DetailType(
                     detail_category_id=detail_category.id,
-                    type_name=f"{type_} Type",
+                    type_name=f"{category}.{type_}",
                     score=random.randint(0, 10),
                 )
                 session.add(detail_type)
@@ -98,7 +98,7 @@ def init_data() -> None:
             session.add(profile)
             session.flush()
 
-            for j in range(30):
+            for j in range(1000):
                 session.add(
                     Product(
                         profile_id=profile.id,
@@ -107,7 +107,7 @@ def init_data() -> None:
                         price=1000000 + i*1000 + j,
                         address=f"{profile.city} Street {j}",
                         condition=(ProductCondition.NEW, ProductCondition.USED)[j % 2],
-                        description=f"{profile.name}'s product №{j}",
+                        description=f"{profile.name}'s product №{j}" + " some_text"*10*random.randint(1, 20),
                     )
                 )
 
