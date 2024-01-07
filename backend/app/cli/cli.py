@@ -27,7 +27,7 @@ def init_data() -> None:
     with db.create_session() as session:
         car_gen_ids = []
         detail_type_ids = []
-        for brand in get_random_pairs():
+        for brand in get_random_pairs(n=2):
             car_brand = CarBrand(
                 brand_name=f"{brand} Brand",
                 score=random.randint(0, 10),
@@ -35,7 +35,7 @@ def init_data() -> None:
             session.add(car_brand)
             session.flush()
 
-            for model in get_random_pairs():
+            for model in get_random_pairs(n=2):
                 car_model = CarModel(
                     car_brand_id=car_brand.id,
                     model_name=f"{brand} Brand/ {model} Model",
@@ -44,7 +44,7 @@ def init_data() -> None:
                 session.add(car_model)
                 session.flush()
 
-                for gen in get_random_pairs():
+                for gen in get_random_pairs(n=2):
                     car_gen = CarGen(
                         car_model_id=car_model.id,
                         gen_name=f"{brand} Brand/ {model} Model/ {gen} Gen",
@@ -98,7 +98,7 @@ def init_data() -> None:
             session.add(profile)
             session.flush()
 
-            for j in range(10):
+            for j in range(30):
                 session.add(
                     Product(
                         profile_id=profile.id,
