@@ -33,8 +33,8 @@ export function ProfileButton() {
 		return (
 			<div className="profile-menu" onClick={(e) => {e.stopPropagation()}}>
 				<button className="profile-button" type="button" onClick={() => {setProfileMenuActive(false)}}>Профиль</button>
-				<button className="profile-button" type="button" onClick={handleProfileProducts}>Мои объявления</button>
-				<button className="profile-button" type="button" onClick={handleLogout}>Выйти</button>
+				<button className="profile-button white" type="button" onClick={handleProfileProducts}>Мои объявления</button>
+				<button className="profile-button white" type="button" onClick={handleLogout}>Выйти</button>
 			</div>
 		)
 	}

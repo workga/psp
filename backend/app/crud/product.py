@@ -154,7 +154,7 @@ def search_products(
         if detail_type_id is not None:
             query = query.where(Product.detail_type_id == detail_type_id)
         if city is not None:
-            query = query.where(Profile.city == city)
+            query = query.where(Product.address == city)
         if min_price is not None:
             query = query.where(Product.price >= min_price)
         if max_price is not None:

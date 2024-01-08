@@ -19,6 +19,13 @@ export function Search() {
   const [authModalActive, setAuthModalActive] = useState(false);
   const [createProductModalActive, setCreateProductModalActive] = useState(false);
 
+  const [minPriceFilter, setMinPriceFilter] = useLocalStorage("minPriceFilter", '');
+	const [maxPriceFilter, setMaxPriceFilter] = useLocalStorage("maxPriceFilter", '');
+	const [cityFilter, setCityFilter] = useLocalStorage("cityFilter", '');
+	const [conditionFilter, setConditionFilter] = useLocalStorage("conditionFilter", '');
+	const [sortFilter, setSortFilter] = useLocalStorage("sortFilter", '');
+	const [descFilter, setDescFilter] = useLocalStorage("descFilter", '');
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 		try {
@@ -29,6 +36,26 @@ export function Search() {
 			if (selectedTypeId) {
 				params.detail_type_id = selectedTypeId
 			}
+			if (minPriceFilter) {
+				params.min_price = minPriceFilter
+			}
+			if (maxPriceFilter) {
+				params.max_price = maxPriceFilter
+			}
+			if (cityFilter) {
+				params.city = cityFilter
+			}
+			if (conditionFilter) {
+				params.condition = conditionFilter
+			}
+			if (sortFilter) {
+				params.sort_by = sortFilter
+			}
+			console.log(descFilter)
+			if (descFilter) {
+				params.desc = descFilter
+			}
+
 			const response = await axios.get('/api/products', {
 				params: params
 			});
@@ -52,6 +79,62 @@ export function Search() {
   	<div>
   		<main>
 				<div className="search-container">
+					<div className="search-header filters-header">
+
+						<div className="selector-holder">
+							<div>
+								<input
+									className="search-input"
+									type="text"
+									placeholder="Цена от"
+									value={minPriceFilter}
+									onChange={(e) => {setMinPriceFilter(e.target.value)}}
+								/>
+							</div>
+							<div>
+								<input
+									className="search-input"
+									type="text"
+									placeholder="Цена до"
+									value={maxPriceFilter}
+									onChange={(e) => {setMaxPriceFilter(e.target.value)}}
+								/>
+							</div>
+							<div>
+								<input
+									className="search-input"
+									type="text"
+									placeholder="Город"
+									value={cityFilter}
+									onChange={(e) => {setCityFilter(e.target.value)}}
+								/>
+							</div>
+							<div>
+								<select className="search-input" value={conditionFilter} onChange={(e) => setConditionFilter(e.target.value)}>
+									<option value={''}>Состояние</option>
+									<option value={"new"}>Новая</option>
+									<option value={"used"}>Б/у</option>
+								</select>
+							</div>
+							<div>
+								<select className="search-input" value={sortFilter} onChange={(e) => setSortFilter(e.target.value)}>
+									<option value={''}>Сортировка</option>
+									<option value={"time"}>Время публикации</option>
+									<option value={"price"}>Цена</option>
+									<option value={"score"}>Популярность</option>
+								</select>
+							</div>
+							<div>
+								<select className="search-input" value={descFilter} onChange={(e) => setDescFilter(e.target.value)}>
+									<option value={''}>Сортировать по</option>
+									<option value={false}>Возрастанию</option>
+									<option value={true}>Убыванию</option>
+								</select>
+							</div>
+						</div>
+
+					</div>
+
 					<div className="search-header">
 						<form className="search-form" onSubmit={handleSubmit}>
 							{SelectorMarkupGetter()}

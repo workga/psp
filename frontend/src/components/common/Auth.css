@@ -8,6 +8,10 @@
 	width: 160px;
 }
 
+.white {
+	background-color: white;
+}
+
 .sign-in-button {
 	width: fit-content;
   background-color: #BDE3B3;
@@ -101,7 +105,7 @@
 }
 
 .profile-menu {
-	background-color: #DCF2D1;
+	background-color: white;
 	border: none;
   border-radius: 16px;
 	display: flex;

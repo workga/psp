@@ -73,22 +73,11 @@ function CreateProduct({setActive}) {
 
 	const handleCreateProduct = async (e) => {
 		e.preventDefault();
-		let valid_condition = null
-		if (condition === "Новая") {
-			valid_condition = "new";
-		}
-		else if (condition === "Б/у") {
-			valid_condition = "used";
-		}
-		else {
-			console.error('Wrong condition');
-			return null;
-		}
 
 		const createProductData = {
 			price: price,
 			address: address,
-			condition: valid_condition,
+			condition: condition,
 			description: description,
 			car_gen_id: selectedGenId,
 			detail_type_id: selectedTypeId
@@ -136,19 +125,11 @@ function CreateProduct({setActive}) {
 					</div>
 				</div>
 				<div className="flex-row full-width">
-						<input
-							className="create-product-input"
-							type="text"
-							list="conditions"
-							placeholder="Состояние"
-							onChange={(e) => setCondition(e.target.value)}
-							value={condition}
-							required
-						/>
-						<datalist id="conditions">
-							<option>Новая</option>
-							<option>Б/у</option>
-						</datalist>
+						<select className="create-product-input" value={condition} onChange={(e) => setCondition(e.target.value)} required>
+							<option value={''}>Состояние</option>
+							<option value={"new"}>Новая</option>
+							<option value={"used"}>Б/у</option>
+						</select>
 				</div>
 				<div className="flex-row full-width">
 					<input

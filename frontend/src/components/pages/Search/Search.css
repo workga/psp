@@ -18,6 +18,11 @@ body {
   justify-content: center;
 }
 
+.filters-header {
+	top: 60px;
+	background-color: #DCF2D1;
+}
+
 .search-form {
   display: flex;
   justify-content: space-around;
@@ -52,7 +57,7 @@ body {
 
 .search-results-container {
 	padding: 50px;
-  margin-top: 20px;
+  margin-top: 80px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
