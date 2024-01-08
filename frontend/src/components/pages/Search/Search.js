@@ -3,6 +3,7 @@ import { useLocalStorage } from "@uidotdev/usehooks";
 import axios from 'axios';
 import './Search.css';
 import { ProductModal } from "./ProductModal.js"
+import { AuthModal, AuthButton } from "./../../common/Auth.js"
 
 export function Search() {
   const [brands, setBrands] = useState([]);
@@ -28,6 +29,7 @@ export function Search() {
 
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [productModalActive, setProductModalActive] = useState(false);
+  const [authModalActive, setAuthModalActive] = useState(false);
 
   useEffect(() => {
     async function fetchBrands() {
@@ -239,11 +241,10 @@ export function Search() {
 									))}
 								</datalist>
 							</div>
-
 							<button className="search-button" type="submit">Искать</button>
+							<AuthButton setAuthModalActive={setAuthModalActive}/>
 						</form>
 					</div>
-
 
 					<div className="search-results-container">
 						{searchResults.map((result) => (
@@ -272,6 +273,7 @@ export function Search() {
 				</div>
 			</main>
 			<ProductModal active={productModalActive} setActive={setProductModalActive} selectedProduct={selectedProduct} setSelectedProduct={setSelectedProduct}/>
+			<AuthModal active={authModalActive} setActive={setAuthModalActive}/>
     </div>
   );
 }

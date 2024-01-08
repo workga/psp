@@ -22,7 +22,7 @@ body {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  width: 75%;
+	gap: 20px;
 }
 
 .search-form-row {
@@ -35,6 +35,10 @@ body {
   border-radius: 16px;
   padding: 8px;
 	font-size: 18px;
+}
+
+.search-input:focus {
+	outline: none;
 }
 
 .search-button {

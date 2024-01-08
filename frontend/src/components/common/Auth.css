@@ -1,0 +1,96 @@
+.profile-button {
+  background-color: #DCF2D1;
+  cursor: pointer;
+  border: none;
+  border-radius: 16px;
+  padding: 8px;
+	font-size: 18px;
+}
+
+.sign-in-button {
+	width: fit-content;
+  background-color: #BDE3B3;
+  cursor: pointer;
+  border: none;
+  border-radius: 16px;
+  padding: 8px;
+	font-size: 18px;
+}
+
+.sign-in-button.sign-up-button {
+  background-color: #BDE3B3;
+}
+
+.auth-modal {
+	height: 100vh;
+	width: 100vw;
+	background-color: rgba(0,0,0,0.4);
+	position: fixed;
+	top: 0;
+	left: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	opacity: 0;
+	pointer-events: none;
+	transition: 0.2s;
+}
+
+.auth-modal.active {
+	opacity: 1;
+	pointer-events: all;
+}
+
+.auth-modal-content {
+	transform: scale(0.5);
+	transition: 0.2s;
+}
+
+.auth-modal-content.active {
+	transform: scale(1);
+}
+
+.auth {
+	background-color: #DCF2D1;
+	height: 210px;
+	width: 400px;
+  border-radius: 16px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.auth-title {
+	font-size: 30px;
+}
+
+.auth-form {
+	width: 100%;
+	height: 130px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: center;
+}
+
+.auth-input {
+  width: 100%;
+  border: none;
+  border-radius: 16px;
+  padding: 8px;
+	font-size: 18px;
+}
+
+.auth-input:focus {
+	outline: none;
+}
+
+.auth-buttons {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	gap: 20px;
+}
