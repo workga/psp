@@ -5,6 +5,7 @@
   border-radius: 16px;
   padding: 8px;
 	font-size: 18px;
+	width: 160px;
 }
 
 .sign-in-button {
@@ -93,4 +94,20 @@
 	display: flex;
 	justify-content: center;
 	gap: 20px;
+}
+
+.full-width {
+	width: 100%;
+}
+
+.profile-menu {
+	background-color: #DCF2D1;
+	border: none;
+  border-radius: 16px;
+	display: flex;
+	justify-content: start;
+	align-items: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: start;
 }

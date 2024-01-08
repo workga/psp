@@ -11,7 +11,8 @@ export function Search() {
 	const { auth, setAuth } = useContext(AuthContext);
 	const [selectedGenId, selectedTypeId, SelectorMarkupGetter] = CarAndDetailSelector({isLong:true,name:"-search-header"})
 
-  const [searchResults, setSearchResults] = useState([]);
+  const [searchResults, setSearchResults] = useLocalStorage("search-results", []);
+  const [showProfileProducts, setShowProfileProducts] = useLocalStorage("show-profile-products", false);
 
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [productModalActive, setProductModalActive] = useState(false);
@@ -31,8 +32,6 @@ export function Search() {
 			const response = await axios.get('/api/products', {
 				params: params
 			});
-
-			console.log("searchResult:", response.data)
 
 			setSearchResults(response.data);
 		} catch (error) {
@@ -56,12 +55,13 @@ export function Search() {
 					<div className="search-header">
 						<form className="search-form" onSubmit={handleSubmit}>
 							{SelectorMarkupGetter()}
-							<button className="search-button" type="submit">Искать</button>
+							<button className="search-button" type="submit" onClick={() => {setShowProfileProducts(false)}}>Искать</button>
 							<AuthButton setAuthModalActive={setAuthModalActive}/>
 						</form>
 					</div>
 
 					<div className="search-results-container">
+						{showProfileProducts ? <div className="products-title">Мои объявления</div> : null}
 						{searchResults.map((result) => (
 							<div className="search-result-item">
 								<div className="flex-row">

@@ -2,6 +2,47 @@ import "./Auth.css"
 import { AuthContext } from "./../../context/AuthProvider";
 import { useState, useContext } from 'react';
 import axios from 'axios';
+import { useLocalStorage } from "@uidotdev/usehooks";
+
+
+export function ProfileButton() {
+	const { auth, setAuth } = useContext(AuthContext);
+	const [profileMenuActive, setProfileMenuActive] = useState(false);
+	const [searchResults, setSearchResults] = useLocalStorage("search-results", []);
+	const [showProfileProducts, setShowProfileProducts] = useLocalStorage("show-profile-products", false);
+
+
+	async function handleProfileProducts() {
+		setProfileMenuActive(false);
+		const response = await axios.get('/api/profile/products', { withCredentials: true });
+		setSearchResults(response.data);
+		setShowProfileProducts(true);
+	}
+
+	async function handleLogout() {
+		setProfileMenuActive(false);
+		if (showProfileProducts) {
+			setSearchResults([]);
+			setShowProfileProducts(false);
+		}
+		await axios.post('/api/auth/logout', { withCredentials: true });
+		setAuth(null);
+	}
+
+	if (profileMenuActive) {
+		return (
+			<div className="profile-menu" onClick={(e) => {e.stopPropagation()}}>
+				<button className="profile-button" type="button" onClick={() => {setProfileMenuActive(false)}}>Профиль</button>
+				<button className="profile-button" type="button" onClick={handleProfileProducts}>Мои объявления</button>
+				<button className="profile-button" type="button" onClick={handleLogout}>Выйти</button>
+			</div>
+		)
+	}
+
+	return (
+		<button className="profile-button" type="button" onClick={() => {setProfileMenuActive(true)}}>Профиль</button>
+	)
+}
 
 export function AuthButton({setAuthModalActive}) {
 	const { auth, setAuth } = useContext(AuthContext);
@@ -16,7 +57,7 @@ export function AuthButton({setAuthModalActive}) {
 		setAuth(null);
 	}
 	return (
-		<button className="profile-button" type="button" onClick={handleLogout}>Выйти</button>
+		<ProfileButton/>
 	)
 }
 
