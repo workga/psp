@@ -1,11 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useLocalStorage } from "@uidotdev/usehooks";
 import axios from 'axios';
 import './Search.css';
-import { ProductModal } from "./ProductModal.js"
+import { ProductModal, CreateProductModal } from "./ProductModal.js"
 import { AuthModal, AuthButton } from "./../../common/Auth.js"
+import { AuthContext } from "./../../../context/AuthProvider.js"
 
 export function Search() {
+	const { auth, setAuth } = useContext(AuthContext);
+
   const [brands, setBrands] = useState([]);
   const [models, setModels] = useState([]);
   const [gens, setGens] = useState([]);
@@ -30,6 +33,7 @@ export function Search() {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [productModalActive, setProductModalActive] = useState(false);
   const [authModalActive, setAuthModalActive] = useState(false);
+  const [createProductModalActive, setCreateProductModalActive] = useState(false);
 
   useEffect(() => {
     async function fetchBrands() {
@@ -181,6 +185,15 @@ export function Search() {
 		}
   };
 
+  function CreateProductButton({auth}) {
+		if (auth == null) {
+			return null
+		}
+		return (
+			<button className="create-product-button" onClick={() => {setProductModalActive(true)}}>Создать объявление</button>
+		)
+	}
+
   return (
   	<div>
   		<main>
@@ -271,9 +284,11 @@ export function Search() {
 						))}
 					</div>
 				</div>
+				<CreateProductButton auth={auth}/>
 			</main>
 			<ProductModal active={productModalActive} setActive={setProductModalActive} selectedProduct={selectedProduct} setSelectedProduct={setSelectedProduct}/>
 			<AuthModal active={authModalActive} setActive={setAuthModalActive}/>
+			<CreateProductModal active={createProductModalActive} setCreateProductModalActive={setCreateProductModalActive}/>
     </div>
   );
 }

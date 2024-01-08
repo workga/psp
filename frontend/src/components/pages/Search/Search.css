@@ -119,3 +119,16 @@ body {
 	font-size: 18px;
 }
 
+.create-product-button {
+	position: fixed;
+	top: 90%;
+	left: 85%;
+	background-color: #FFFA88;
+	width: fit-content;
+  cursor: pointer;
+  border: none;
+  border-radius: 16px;
+  padding: 8px;
+	font-size: 24px;
+}
+

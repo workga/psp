@@ -57,3 +57,34 @@ export function ProductModal({active, setActive, selectedProduct, setSelectedPro
 		</div>
 	);
 }
+
+
+
+function CreateProduct() {
+	return (
+		<div>
+			keka
+		</div>
+	)
+}
+
+
+
+export function CreateProductModal({active, setActive}) {
+	function activeModifier(className) {
+		if (active) {
+			className += " active"
+		}
+		return className
+	}
+
+	return (
+		<div className={activeModifier("product-modal")} onClick={() => {
+			setActive(false);
+		}}>
+			<div className={activeModifier("product-modal-content")} onClick={(e) => {e.stopPropagation()}}>
+				<CreateProduct/>
+			</div>
+		</div>
+	);
+}
