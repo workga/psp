@@ -1,0 +1,24 @@
+.selector-long {
+	display: flex;
+	flex-direction: row;
+	gap: 20px;
+}
+
+.selector-short {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+
+.selector-holder {
+	display: flex;
+	gap: 20px;
+}
+
+.selector-input {
+  width: 220px;
+  border: none;
+  border-radius: 16px;
+  padding: 8px;
+	font-size: 18px;
+}

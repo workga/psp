@@ -27,7 +27,7 @@ def init_data() -> None:
     with db.create_session() as session:
         car_gen_ids = []
         detail_type_ids = []
-        for brand in get_random_pairs(n=4):
+        for brand in get_random_pairs(n=2):
             car_brand = CarBrand(
                 brand_name=f"{brand}",
                 score=random.randint(0, 10),
@@ -35,7 +35,7 @@ def init_data() -> None:
             session.add(car_brand)
             session.flush()
 
-            for model in get_random_pairs(n=4):
+            for model in get_random_pairs(n=2):
                 car_model = CarModel(
                     car_brand_id=car_brand.id,
                     model_name=f"{brand}.{model}",
@@ -44,7 +44,7 @@ def init_data() -> None:
                 session.add(car_model)
                 session.flush()
 
-                for gen in get_random_pairs(n=4):
+                for gen in get_random_pairs(n=2):
                     car_gen = CarGen(
                         car_model_id=car_model.id,
                         gen_name=f"{brand}.{model}.{gen}",
@@ -54,7 +54,7 @@ def init_data() -> None:
                     session.flush()
                     car_gen_ids.append(car_gen.id)
 
-        for category in get_random_pairs(n=4):
+        for category in get_random_pairs(n=2):
             detail_category = DetailCategory(
                 category_name=f"{category}",
                 score=random.randint(0, 10),
@@ -62,7 +62,7 @@ def init_data() -> None:
             session.add(detail_category)
             session.flush()
 
-            for type_ in get_random_pairs(n=4):
+            for type_ in get_random_pairs(n=2):
                 detail_type = DetailType(
                     detail_category_id=detail_category.id,
                     type_name=f"{category}.{type_}",
@@ -98,7 +98,7 @@ def init_data() -> None:
             session.add(profile)
             session.flush()
 
-            for j in range(1000):
+            for j in range(10):
                 session.add(
                     Product(
                         profile_id=profile.id,

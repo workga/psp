@@ -1,6 +1,6 @@
 import "./Auth.css"
 import { AuthContext } from "./../../context/AuthProvider";
-import { useRef, useState, useEffect, useContext } from 'react';
+import { useState, useContext } from 'react';
 import axios from 'axios';
 
 export function AuthButton({setAuthModalActive}) {

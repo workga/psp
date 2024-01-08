@@ -2,6 +2,7 @@ import "./ProductModal.css"
 import "./Search.css"
 import axios from 'axios';
 import React, { useState, useEffect, useContext } from 'react';
+import { CarAndDetailSelector } from "./../../common/CarAndDetailSelector.js";
 
 function ProductDetails({selectedProduct}) {
 	if (selectedProduct == null) {
@@ -63,19 +64,20 @@ export function ProductModal({active, setActive, selectedProduct, setSelectedPro
 
 
 function CreateProduct({setActive}) {
-	const [price, setPrice] = useState(null);
-	const [address, setAddress] = useState(null);
-	const [condition, setCondition] = useState(null);
-	const [description, setDescription] = useState(null);
+	const [price, setPrice] = useState('');
+	const [address, setAddress] = useState('');
+	const [condition, setCondition] = useState('');
+	const [description, setDescription] = useState('');
+
+	const [selectedGenId, selectedTypeId, SelectorMarkupGetter] = CarAndDetailSelector({isLong:false, name:"-create-product"})
 
 	const handleCreateProduct = async (e) => {
 		e.preventDefault();
-		console.log(condition)
 		let valid_condition = null
-		if (condition == "Новая") {
+		if (condition === "Новая") {
 			valid_condition = "new";
 		}
-		else if (condition == "Б/у") {
+		else if (condition === "Б/у") {
 			valid_condition = "used";
 		}
 		else {
@@ -88,8 +90,8 @@ function CreateProduct({setActive}) {
 			address: address,
 			condition: valid_condition,
 			description: description,
-			car_gen_id: 1,
-			detail_type_id: 1
+			car_gen_id: selectedGenId,
+			detail_type_id: selectedTypeId
 		}
 
 		try {
@@ -158,6 +160,7 @@ function CreateProduct({setActive}) {
 						required
 					/>
 				</div>
+				{SelectorMarkupGetter()}
 				<div className="create-product-details-bottom">
 					<button className="search-result-item-details-button" onClick={(e) => {handleCreateProduct(e)}}>Создать</button>
 				</div>
