@@ -190,7 +190,7 @@ export function Search() {
 			return null
 		}
 		return (
-			<button className="create-product-button" onClick={() => {setProductModalActive(true)}}>Создать объявление</button>
+			<button className="create-product-button" onClick={() => {setCreateProductModalActive(true)}}>Создать объявление</button>
 		)
 	}
 
@@ -288,7 +288,7 @@ export function Search() {
 			</main>
 			<ProductModal active={productModalActive} setActive={setProductModalActive} selectedProduct={selectedProduct} setSelectedProduct={setSelectedProduct}/>
 			<AuthModal active={authModalActive} setActive={setAuthModalActive}/>
-			<CreateProductModal active={createProductModalActive} setCreateProductModalActive={setCreateProductModalActive}/>
+			<CreateProductModal active={createProductModalActive} setActive={setCreateProductModalActive}/>
     </div>
   );
 }

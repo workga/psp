@@ -122,7 +122,7 @@ body {
 .create-product-button {
 	position: fixed;
 	top: 90%;
-	left: 85%;
+	left: 80%;
 	background-color: #FFFA88;
 	width: fit-content;
   cursor: pointer;

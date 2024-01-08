@@ -24,6 +24,11 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	width: 75%;
+}
+
+.create-product-modal-content {
+	width: 60%;
 }
 
 .product-modal-content.active {
@@ -32,7 +37,7 @@
 
 .product-details {
 	height: 80%;
-	width: 75%;
+	width: 100%;
 	background-color: #DCF2D1;
   border-radius: 16px;
   padding: 20px;
@@ -68,5 +73,77 @@
 	width: 40%;
 	display: flex;
 	justify-content: space-between;
+}
+
+.create-product-details-bottom {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+}
+
+.create-product {
+	height: 100%;
+	width: 100%;
+	background-color: #DCF2D1;
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: start;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.create-product-title {
+	font-size: 30px;
+	text-align: center;
+	width: 100%;
+}
+
+.create-product-form {
+	width: 100%;
+	height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: start;
+}
+
+.create-product-base-info {
+	width: 100%;
+	padding-left: 10px;
+	padding-right: 10px;
+	display: flex;
+  flex-direction: column;
+	gap: 10px;
+}
+
+.create-product-input {
+  width: 200px;
+  border: none;
+  border-radius: 16px;
+  padding: 8px;
+	font-size: 18px;
+}
+
+.create-product-input-large {
+	width: 100%;
+	height: 100%;
+	text-align: center;
+}
+
+.create-product-input:focus {
+	outline: none;
+}
+
+.create-product-buttons {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	gap: 20px;
 }
 
