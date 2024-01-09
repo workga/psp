@@ -12,6 +12,8 @@ export function ProfileButton({setProfileDetailsModalActive}) {
 	const [showProfileProducts, setShowProfileProducts] = useLocalStorage("show-profile-products", false);
 	const [profileInfo, setProfileInfo] = useLocalStorage("profile-info", null);
 
+	const [garage, setGarage] = useLocalStorage("garage", null);
+
 	async function handleProfile() {
 		setProfileMenuActive(false);
 		const response = await axios.get('/api/profile', { withCredentials: true });
@@ -35,6 +37,7 @@ export function ProfileButton({setProfileDetailsModalActive}) {
 		}
 		await axios.post('/api/auth/logout', { withCredentials: true });
 		setAuth(null);
+		setGarage(null);
 	}
 
 	if (profileMenuActive) {
@@ -70,6 +73,20 @@ export function AuthButton({setAuthModalActive, setProfileDetailsModalActive}) {
 	)
 }
 
+export async function getGarage() {
+	try {
+		const response = await axios.get('/api/profile/garage',
+			{
+				withCredentials: true
+			}
+		);
+		return response.data;
+	} catch (error) {
+		console.error('Error get garage:', error);
+		return [];
+	}
+}
+
 function Auth({setActive, registerMenuActive, setRegisterMenuActive}) {
 	const { auth, setAuth } = useContext(AuthContext);
 	const [name, setName] = useState('buba');  // REPLACE BY ''
@@ -77,6 +94,8 @@ function Auth({setActive, registerMenuActive, setRegisterMenuActive}) {
 	const [pwd, setPwd] = useState('testing_profile'); // REPLACE BY ''
 	const [phone, setPhone] = useState('79009009000');  // REPLACE BY ''
 	const [city, setCity] = useState('Vegas');  // REPLACE BY ''
+
+	const [garage, setGarage] = useLocalStorage("garage", null);
 
 	const handleLogin = async (e) => {
 		e.preventDefault();
@@ -98,6 +117,7 @@ function Auth({setActive, registerMenuActive, setRegisterMenuActive}) {
 						{ withCredentials: true }
 				);
 				setAuth(profileInfo);
+				setGarage(await getGarage())
 				setLogin('testing0@example.com');  // REPLACE BY ''
 				setPwd('testing_profile'); // REPLACE BY ''
 				setActive(false);

@@ -4,6 +4,7 @@ import axios from 'axios';
 import './Search.css';
 import { ProductModal, CreateProductModal } from "./ProductModal.js"
 import { ProfileModal } from "./ProfileModal.js"
+import { GarageHolder } from "./GarageHolder.js"
 import { AuthModal, AuthButton } from "./../../common/Auth.js"
 import { AuthContext } from "./../../../context/AuthProvider.js"
 import { CarAndDetailSelector } from "./../../common/CarAndDetailSelector.js"
@@ -105,11 +106,10 @@ export function Search() {
   		<main>
 				<div className="search-container">
 					<div className="search-header filters-header">
-
 						<div className="selector-holder">
 							<div>
 								<input
-									className="search-input"
+									className="search-filter-input"
 									type="text"
 									placeholder="Цена от"
 									value={minPriceFilter}
@@ -118,7 +118,7 @@ export function Search() {
 							</div>
 							<div>
 								<input
-									className="search-input"
+									className="search-filter-input"
 									type="text"
 									placeholder="Цена до"
 									value={maxPriceFilter}
@@ -127,7 +127,7 @@ export function Search() {
 							</div>
 							<div>
 								<input
-									className="search-input"
+									className="search-filter-input"
 									type="text"
 									placeholder="Город"
 									value={cityFilter}
@@ -135,14 +135,14 @@ export function Search() {
 								/>
 							</div>
 							<div>
-								<select className="search-input" value={conditionFilter} onChange={(e) => setConditionFilter(e.target.value)}>
+								<select className="search-filter-input" value={conditionFilter} onChange={(e) => setConditionFilter(e.target.value)}>
 									<option value={''}>Состояние</option>
 									<option value={"new"}>Новая</option>
 									<option value={"used"}>Б/у</option>
 								</select>
 							</div>
 							<div>
-								<select className="search-input" value={sortFilter} onChange={(e) => setSortFilter(e.target.value)}>
+								<select className="search-filter-input" value={sortFilter} onChange={(e) => setSortFilter(e.target.value)}>
 									<option value={''}>Сортировка</option>
 									<option value={"time"}>Время публикации</option>
 									<option value={"price"}>Цена</option>
@@ -150,18 +150,18 @@ export function Search() {
 								</select>
 							</div>
 							<div>
-								<select className="search-input" value={descFilter} onChange={(e) => setDescFilter(e.target.value)}>
+								<select className="search-filter-input" value={descFilter} onChange={(e) => setDescFilter(e.target.value)}>
 									<option value={''}>Сортировать по</option>
 									<option value={false}>Возрастанию</option>
 									<option value={true}>Убыванию</option>
 								</select>
 							</div>
 						</div>
-
 					</div>
 
 					<div className="search-header">
 						<form className="search-form" onSubmit={handleSubmit}>
+							<GarageHolder/>
 							{SelectorMarkupGetter()}
 							<button className="search-button" type="submit" onClick={() => {setShowProfileProducts(false)}}>Искать</button>
 							<AuthButton setAuthModalActive={setAuthModalActive} setProfileDetailsModalActive={setProfileDetailsModalActive}/>

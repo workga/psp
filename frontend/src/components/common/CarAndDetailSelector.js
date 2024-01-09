@@ -156,7 +156,7 @@ export function CarAndDetailSelector({isLong, name}) {
 			<div className={selectorTypeClassName}>
 				<div className="selector-holder">
 					<div>
-						<input className="search-input" type="text" placeholder="Марка автомобиля" value={brandSearch} onChange={handleBrandInputChange} list={"brandsList"+name} />
+						<input className="search-input" type="text" placeholder="Марка" value={brandSearch} onChange={handleBrandInputChange} list={"brandsList"+name} />
 						<datalist className="search-input" id={"brandsList"+name}>
 							{brands.map((brand) => (
 								<option key={brand.id} value={brand.brand_name}>
@@ -167,7 +167,7 @@ export function CarAndDetailSelector({isLong, name}) {
 					</div>
 
 					<div>
-						<input className="search-input" type="text" placeholder="Модель автомобиля" value={modelSearch} onChange={handleModelInputChange} list={"modelsList"+name} />
+						<input className="search-input" type="text" placeholder="Модель" value={modelSearch} onChange={handleModelInputChange} list={"modelsList"+name} />
 						<datalist className="search-input" id={"modelsList"+name}>
 							{models.map((model) => (
 								<option key={model.id} value={model.model_name}>
@@ -178,7 +178,7 @@ export function CarAndDetailSelector({isLong, name}) {
 					</div>
 
 					<div>
-						<input className="search-input" type="text" placeholder="Поколение автомобиля" value={genSearch} onChange={handleGenInputChange} list={"gensList"+name} />
+						<input className="search-input" type="text" placeholder="Поколение" value={genSearch} onChange={handleGenInputChange} list={"gensList"+name} />
 						<datalist className="search-input" id={"gensList"+name}>
 							{gens.map((gen) => (
 								<option key={gen.id} value={gen.gen_name}>
@@ -190,7 +190,7 @@ export function CarAndDetailSelector({isLong, name}) {
 				</div>
 				<div className="selector-holder">
 					<div>
-						<input className="search-input" type="text" placeholder="Категория детали" value={categorySearch} onChange={handleCategoryInputChange} list={"categoriesList"+name} />
+						<input className="search-input" type="text" placeholder="Категория" value={categorySearch} onChange={handleCategoryInputChange} list={"categoriesList"+name} />
 						<datalist className="search-input" id={"categoriesList"+name}>
 							{categories.map((category) => (
 								<option key={category.id} value={category.category_name}>
@@ -201,7 +201,7 @@ export function CarAndDetailSelector({isLong, name}) {
 					</div>
 
 					<div>
-						<input className="search-input" type="text" placeholder="Тип детали" value={typeSearch} onChange={handleTypeInputChange} list={"typesList"+name} />
+						<input className="search-input" type="text" placeholder="Тип" value={typeSearch} onChange={handleTypeInputChange} list={"typesList"+name} />
 						<datalist className="search-input" id={"typesList"+name}>
 							{types.map((type) => (
 								<option key={type.id} value={type.type_name}>

@@ -1,0 +1,15 @@
+.garage-holder {
+	height: 100%;
+	display: flex;
+	align-items: center;
+}
+
+.add-car-to-garage-button {
+	background-color: #FFFA88;
+	border-radius: 16px;
+	border: none;
+	font-size: 26px;
+	width: 37px;
+	height: 37px;
+  cursor: pointer;
+}
