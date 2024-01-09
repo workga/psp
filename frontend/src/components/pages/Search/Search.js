@@ -74,14 +74,20 @@ export function Search() {
   const handleDeleteProduct = async (e, result) => {
     e.preventDefault();
 		try {
-			let params = {}
-
 			await axios.delete('/api/profile/products/'+result.id);
 
 			let newSearchResults = searchResults.filter((item) => {return item.id !== result.id })
 			setSearchResults(newSearchResults);
 		} catch (error) {
 			console.error('Error delete product:', error);
+		}
+  };
+
+  const handleDetails = async (result) => {
+		try {
+			await axios.post('/api/products/'+result.id+'/increase_score');
+		} catch (error) {
+			console.error('Error increase product score:', error);
 		}
   };
 
@@ -183,6 +189,7 @@ export function Search() {
 									<button className="search-result-item-details-button" onClick={() => {
 										setSelectedProduct(result);
   									setProductModalActive(true);
+  									handleDetails(result);
 									}}>
 										Подробнее
 									</button>
