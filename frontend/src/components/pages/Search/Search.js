@@ -71,6 +71,20 @@ export function Search() {
 		}
   };
 
+  const handleDeleteProduct = async (e, result) => {
+    e.preventDefault();
+		try {
+			let params = {}
+
+			await axios.delete('/api/profile/products/'+result.id);
+
+			let newSearchResults = searchResults.filter((item) => {return item.id !== result.id })
+			setSearchResults(newSearchResults);
+		} catch (error) {
+			console.error('Error delete product:', error);
+		}
+  };
+
   function CreateProductButton({auth}) {
 		if (auth == null) {
 			return null
@@ -157,7 +171,10 @@ export function Search() {
 										src={result.image || 'product_photo_placeholder.png'}
 									/>
 									<div className="search-result-info">
-										<div className="search-result-item-price">{result.price}</div>
+										<div className="flex-row space-between">
+											<div className="search-result-item-price">{result.price}</div>
+											{showProfileProducts ? <button className="search-result-item-details-button delete" onClick={(e) => {handleDeleteProduct(e, result)}}>x</button> : null}
+										</div>
 										<div className="search-result-item-description">{result.description.slice(0, 480) + (result.description.length > 480 ? "..." : "")}</div>
 									</div>
 								</div>

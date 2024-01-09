@@ -84,6 +84,10 @@ body {
   display: flex;
 }
 
+.space-between {
+	justify-content: space-between;
+}
+
 .search-result-image {
 	width: 200px;
 	height: 200px;
@@ -126,6 +130,12 @@ body {
   border-radius: 16px;
   padding: 8px;
 	font-size: 18px;
+}
+
+.delete {
+	background-color: #ff7067;
+	width: 37px;
+	height: 37px;
 }
 
 .create-product-button {
