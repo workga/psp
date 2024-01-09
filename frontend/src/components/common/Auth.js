@@ -89,11 +89,11 @@ export async function getGarage() {
 
 function Auth({setActive, registerMenuActive, setRegisterMenuActive}) {
 	const { auth, setAuth } = useContext(AuthContext);
-	const [name, setName] = useState('buba');  // REPLACE BY ''
-	const [login, setLogin] = useState('testing0@example.com');  // REPLACE BY ''
-	const [pwd, setPwd] = useState('testing_profile'); // REPLACE BY ''
-	const [phone, setPhone] = useState('79009009000');  // REPLACE BY ''
-	const [city, setCity] = useState('Vegas');  // REPLACE BY ''
+	const [name, setName] = useState('');
+	const [login, setLogin] = useState('');
+	const [pwd, setPwd] = useState('')
+	const [phone, setPhone] = useState('');
+	const [city, setCity] = useState('');
 
 	const [garage, setGarage] = useLocalStorage("garage", null);
 
@@ -118,8 +118,8 @@ function Auth({setActive, registerMenuActive, setRegisterMenuActive}) {
 				);
 				setAuth(profileInfo);
 				setGarage(await getGarage())
-				setLogin('testing0@example.com');  // REPLACE BY ''
-				setPwd('testing_profile'); // REPLACE BY ''
+				setLogin('');
+				setPwd('');
 				setActive(false);
 		} catch (err) {
 			console.error('Error login:', err);
