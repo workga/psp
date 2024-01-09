@@ -61,10 +61,13 @@ export function AuthButton({setAuthModalActive}) {
 	)
 }
 
-function Auth({setActive}) {
+function Auth({setActive, registerMenuActive, setRegisterMenuActive}) {
 	const { auth, setAuth } = useContext(AuthContext);
+	const [name, setName] = useState('buba');  // REPLACE BY ''
 	const [login, setLogin] = useState('testing0@example.com');  // REPLACE BY ''
 	const [pwd, setPwd] = useState('testing_profile'); // REPLACE BY ''
+	const [phone, setPhone] = useState('79009009000');  // REPLACE BY ''
+	const [city, setCity] = useState('Vegas');  // REPLACE BY ''
 
 	const handleLogin = async (e) => {
 		e.preventDefault();
@@ -94,6 +97,87 @@ function Auth({setActive}) {
 		}
 	}
 
+	const handleRegister = async (e) => {
+		e.preventDefault();
+
+		const registerData = {
+			email: login,
+			password: pwd,
+			name: name,
+			phone: phone,
+			city: city,
+		}
+
+		try {
+				await axios.post('/api/auth/register',
+						JSON.stringify(registerData),
+						{
+								headers: { 'Content-Type': 'application/json' },
+								withCredentials: true
+						}
+				);
+				setActive(false);
+				setRegisterMenuActive(false)
+		} catch (err) {
+			console.error('Error register:', err);
+		}
+	}
+
+	if (registerMenuActive) {
+		return (
+			<div className="auth auth-register">
+				<div className="auth-title">
+				Регистрация
+				</div>
+				<form className="auth-form" onSubmit={handleLogin}>
+					<input
+						className="auth-input"
+						type="text"
+						placeholder="Имя"
+						onChange={(e) => setName(e.target.value)}
+						value={name}
+						required
+					/>
+					<input
+						className="auth-input"
+						type="text"
+						placeholder="Email"
+						onChange={(e) => setLogin(e.target.value)}
+						value={login}
+						required
+					/>
+					<input
+						className="auth-input"
+						type="password"
+						placeholder="Пароль"
+						onChange={(e) => setPwd(e.target.value)}
+						value={pwd}
+						required
+					/>
+					<input
+						className="auth-input"
+						type="text"
+						placeholder="Телефон"
+						onChange={(e) => setPhone(e.target.value)}
+						value={phone}
+						required
+					/>
+					<input
+						className="auth-input"
+						type="text"
+						placeholder="Город"
+						onChange={(e) => setCity(e.target.value)}
+						value={city}
+						required
+					/>
+					<div className="auth-buttons">
+						<button className="sign-in-button" type="submit" onClick={() => {setRegisterMenuActive(false)}}>Назад</button>
+						<button className="sign-in-button sign-up-button" type="button" onClick={(e) => {handleRegister(e)}}>Зарегистрироваться</button>
+					</div>
+				</form>
+			</div>
+		)
+	}
 	return (
 		<div className="auth">
 			<div className="auth-title">
@@ -118,7 +202,7 @@ function Auth({setActive}) {
 				/>
 				<div className="auth-buttons">
 					<button className="sign-in-button" type="submit">Войти</button>
-					<button className="sign-in-button sign-up-button" type="button">Зарегистрироваться</button>
+					<button className="sign-in-button sign-up-button" type="button" onClick={() => {setRegisterMenuActive(true)}}>Регистрация</button>
 				</div>
 			</form>
 		</div>
@@ -126,6 +210,8 @@ function Auth({setActive}) {
 }
 
 export function AuthModal({active, setActive}) {
+	const [registerMenuActive, setRegisterMenuActive] = useState(false);
+
 	function activeModifier(className) {
 		if (active) {
 			className += " active"
@@ -136,9 +222,10 @@ export function AuthModal({active, setActive}) {
 	return (
 		<div className={activeModifier("auth-modal")} onClick={() => {
 			setActive(false);
+			setRegisterMenuActive(false)
 		}}>
 			<div className={activeModifier("auth-modal-content")} onClick={(e) => {e.stopPropagation()}}>
-				<Auth setActive={setActive}/>
+				<Auth setActive={setActive} registerMenuActive={registerMenuActive} setRegisterMenuActive={setRegisterMenuActive}/>
 			</div>
 		</div>
 	);
