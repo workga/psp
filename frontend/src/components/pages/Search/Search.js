@@ -3,6 +3,7 @@ import { useLocalStorage } from "@uidotdev/usehooks";
 import axios from 'axios';
 import './Search.css';
 import { ProductModal, CreateProductModal } from "./ProductModal.js"
+import { ProfileModal } from "./ProfileModal.js"
 import { AuthModal, AuthButton } from "./../../common/Auth.js"
 import { AuthContext } from "./../../../context/AuthProvider.js"
 import { CarAndDetailSelector } from "./../../common/CarAndDetailSelector.js"
@@ -18,6 +19,9 @@ export function Search() {
   const [productModalActive, setProductModalActive] = useState(false);
   const [authModalActive, setAuthModalActive] = useState(false);
   const [createProductModalActive, setCreateProductModalActive] = useState(false);
+  const [profileDetailsModalActive, setProfileDetailsModalActive] = useState(false);
+
+  const [profileInfo, setProfileInfo] = useLocalStorage("profile-info", null);
 
   const [minPriceFilter, setMinPriceFilter] = useLocalStorage("minPriceFilter", '');
 	const [maxPriceFilter, setMaxPriceFilter] = useLocalStorage("maxPriceFilter", '');
@@ -25,6 +29,7 @@ export function Search() {
 	const [conditionFilter, setConditionFilter] = useLocalStorage("conditionFilter", '');
 	const [sortFilter, setSortFilter] = useLocalStorage("sortFilter", '');
 	const [descFilter, setDescFilter] = useLocalStorage("descFilter", '');
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -139,7 +144,7 @@ export function Search() {
 						<form className="search-form" onSubmit={handleSubmit}>
 							{SelectorMarkupGetter()}
 							<button className="search-button" type="submit" onClick={() => {setShowProfileProducts(false)}}>Искать</button>
-							<AuthButton setAuthModalActive={setAuthModalActive}/>
+							<AuthButton setAuthModalActive={setAuthModalActive} setProfileDetailsModalActive={setProfileDetailsModalActive}/>
 						</form>
 					</div>
 
@@ -174,6 +179,7 @@ export function Search() {
 			<ProductModal active={productModalActive} setActive={setProductModalActive} selectedProduct={selectedProduct} setSelectedProduct={setSelectedProduct}/>
 			<AuthModal active={authModalActive} setActive={setAuthModalActive}/>
 			<CreateProductModal active={createProductModalActive} setActive={setCreateProductModalActive}/>
+			<ProfileModal active={profileDetailsModalActive} setActive={setProfileDetailsModalActive}/>
     </div>
   );
 }

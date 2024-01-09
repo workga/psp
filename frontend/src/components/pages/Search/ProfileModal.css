@@ -1,0 +1,82 @@
+.profile-modal {
+	height: 100vh;
+	width: 100vw;
+	background-color: rgba(0,0,0,0.4);
+	position: fixed;
+	top: 0;
+	left: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	opacity: 0;
+	pointer-events: none;
+	transition: 0.05s;
+}
+
+.profile-modal.active {
+	opacity: 1;
+	pointer-events: all;
+}
+
+.profile-modal-content {
+	transform: scale(0.5);
+	transition: 0.05s;
+	height: fit-content;
+}
+
+.profile-modal-content.active {
+	transform: scale(1);
+}
+
+.profile-details {
+	background-color: #DCF2D1;
+	height: fit-content;
+	width: fit-content;
+  border-radius: 16px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.profile-details-title {
+	font-size: 30px;
+}
+
+.profile-form {
+	height: fit-content;
+	width: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: center;
+}
+
+.profile-input {
+	background-color: white;
+  width: 100%;
+  border: none;
+  border-radius: 16px;
+  padding: 8px;
+	font-size: 18px;
+}
+
+.profile-input:focus {
+	outline: none;
+}
+
+.gray {
+	background-color: #EEEEEE;
+}
+
+.update-profile-button {
+  background-color: #BDE3B3;
+  cursor: pointer;
+  border: none;
+  border-radius: 16px;
+  padding: 8px;
+	font-size: 18px;
+	width: 160px;
+}
