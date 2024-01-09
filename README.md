@@ -3,7 +3,7 @@
 - npm 20.7.0
 - docker 20
 
-Backend API is available on localhost:9080
+Backend API and admin panel are available on localhost:9080
 The project is configured only for development!
 
 
