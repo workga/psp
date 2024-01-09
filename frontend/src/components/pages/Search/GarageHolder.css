@@ -2,6 +2,7 @@
 	height: 100%;
 	display: flex;
 	align-items: center;
+	gap: 10px;
 }
 
 .add-car-to-garage-button {
@@ -12,4 +13,17 @@
 	width: 37px;
 	height: 37px;
   cursor: pointer;
+}
+
+.garage-list {
+	background-color: #FFFA88;
+	border-radius: 16px;
+	border: none;
+	font-size: 18px;
+	padding: 8px;
+	width: 90px;
+}
+
+.red {
+	background-color: #ff7067;
 }
